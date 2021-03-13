@@ -1,0 +1,40 @@
+#photos{
+  
+  .photo{
+
+    &__container{
+
+      &__picture{
+        height: 190px;
+      }
+
+      &__thumb{
+        background-color: red;
+      }
+    }
+
+    &__description{
+      margin: 10px 5px;
+      display: flex;
+      justify-content: space-between;
+
+      &__name{
+        font-size: 14px;
+      }
+
+      &__infos{
+        display: flex;
+      }
+
+      &__like{
+        display: flex;
+        margin-left: 15px;
+      }
+
+      &__price, &__like__number{
+        margin: auto;
+        font-size: 12px;
+      }
+    }
+  }
+}

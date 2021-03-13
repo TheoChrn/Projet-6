@@ -1,0 +1,26 @@
+.btn{
+  outline: none;
+  border: none;
+  background-color: $firstPrimaryColor;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  width: 170px;
+  height: 70px;
+  border-radius: 5px;
+}
+
+.contact-btn{
+  height: 35px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  position: fixed;
+  bottom: 30px;
+
+  &:hover{
+    background-color: $secondPrimaryColor;
+    color: black;
+  }
+}
