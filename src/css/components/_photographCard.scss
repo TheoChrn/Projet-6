@@ -1,0 +1,62 @@
+.photographer{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+
+  &__idContainer{
+
+    &__picture{
+      height: 200px;
+      width: 200px;
+      margin: auto ;
+      margin-bottom: 20px;
+
+      & div{
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        background-color: red;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+      }
+    }
+  
+    &__name{
+      text-align: center;
+      font-size: 36px;
+      color: $secondPrimaryColor;
+    }
+  }
+
+  &__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    & *:nth-child(1n+0){
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    &__location{
+      font-size: 13px;
+      color: $firstPrimaryColor;
+    }
+
+    &__description{
+      font-size: 10px;
+    }
+
+    &__price{
+      font-size: 9px;
+      color: #757575;
+    }
+
+    &__hashtags{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: auto;
+    }
+  }
+}

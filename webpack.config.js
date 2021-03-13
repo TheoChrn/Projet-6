@@ -44,6 +44,11 @@ module.exports  = {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',
         path: path.resolve(__dirname, 'dist'),
     },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        port: 3000,
+        open: true,
+    },
     module: {
         rules: [
             {
@@ -70,7 +75,40 @@ module.exports  = {
                 options: {
                     minimize: false,
                 }
-              },
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(jpeg|jpg|png|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                            esModule: false,
+                            
+                        }
+                    },
+                    {
+                        loader: 'img-loader',
+                        options: {
+                            enabled: !dev,
+                        }
+                    },
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            esModule: false,
+                            name: '[name].[hash:6].[ext]',
+                            outputPath: 'images',
+                            publicPath: 'images',
+                            emitFile: true,
+                        }
+                    }
+                ],
+            },
             {
                 test: /\.css$/i,
                 use: [
@@ -85,34 +123,18 @@ module.exports  = {
                     ...cssLoaders,
                     'sass-loader'
                 ]
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
-                loader: 'file-loader'
-            },
-            {
-                test: /\.(png|jpg|gif)$/i,
-                ///\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf|wav)(\?.*)?$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192,
-                        }
-                    },
-                    {
-                        loader: 'img-loader',
-                        options: {
-                            enabled: !dev,
-                        }
-                    }
-                ],
-            },
+            }
         ]
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: dev ? '[name].css' : '[name].[contenthash:8].css',
+        }),
+        new HtmlWebpackPlugin({
+            filename: './mimikeel.html',
+            template: './src/public/pages/mimikeel.html',
+            inject: 'head',
+            minify: false,
         }),
         new HtmlWebpackPlugin({
             template: './src/public/template.html',

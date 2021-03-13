@@ -1,13 +1,18 @@
 /* UTILS */
-
+@import './utils/variables';
+@import './utils/mixins';
 
 /* BASE */
-
+@import './base/base';
 
 /* COMPONENTS */
+@import './components/photographCard';
+@import './components/tag-name';
+@import './components/logo';
 
 
 /* LAYOUT */
-
+@import './layout/header';
 
 /* PAGES */
+@import './pages/home';
