@@ -7,4 +7,9 @@
   margin: 3px;
   text-align: center;
   padding: 1px 5px;
+
+  &:hover{
+    background-color: $firstPrimaryColor;
+    color: white;
+  }
 }
