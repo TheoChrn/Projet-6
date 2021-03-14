@@ -60,7 +60,7 @@ function handleForm (event) {
 
 // regex
 function isEmail (eMail) {
-  const regex = (/[a-zA-Z0-9\]+@[a-zA-Z0-9\]+[a-z]{2,5}/)
+  const regex = (/[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]{2,5}/)
   return regex.test(eMail)
 }
 
