@@ -1,3 +1,4 @@
+/*Buttons*/
 .btn{
   outline: none;
   border: none;
@@ -8,6 +9,7 @@
   width: 170px;
   height: 70px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .contact-btn{
@@ -23,4 +25,19 @@
     background-color: $secondPrimaryColor;
     color: black;
   }
+}
+
+.submit-btn, .close-btn{
+  display: block;
+  margin: 25px auto auto auto;
+  height: 35px;
+  
+  &:hover{
+    background-color: lighten($color: $firstPrimaryColor, $amount: 10);
+  }
+}
+
+.close-btn{
+  align-self: flex-end;
+  margin: 0 auto 50px auto;
 }
