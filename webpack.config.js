@@ -35,7 +35,7 @@ if (!dev) {
     })
 }
 
-module.exports  = {
+module.exports = {
     mode: 'development',
     entry: {
         bundle: ['./src/css/main.scss', './src/js/index.js']
@@ -56,7 +56,7 @@ module.exports  = {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: ['eslint-loader']
-              },
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -82,13 +82,14 @@ module.exports  = {
             },
             {
                 test: /\.(jpeg|jpg|png|gif|svg)$/i,
+                type: 'asset/resource',
                 use: [
-                    {
+                    /*{
                         loader: 'url-loader',
                         options: {
                             limit: 8192,
                             esModule: false,
-                            
+
                         }
                     },
                     {
@@ -102,11 +103,9 @@ module.exports  = {
                         options: {
                             esModule: false,
                             name: '[name].[hash:6].[ext]',
-                            outputPath: 'images',
-                            publicPath: 'images',
                             emitFile: true,
                         }
-                    }
+                    },*/
                 ],
             },
             {

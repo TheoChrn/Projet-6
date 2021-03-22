@@ -5,7 +5,7 @@
 
   &--page{
     flex-direction: row-reverse;
-    margin-bottom: 45px;
+    justify-content: space-between;
   }
 
   &__idContainer{
@@ -23,7 +23,6 @@
     }
 
     &__user{
-      background-color: red;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
     }
   
@@ -47,7 +46,7 @@
       text-align: start;
     }
 
-    & *:nth-child(1n+0){
+    h1, h2, ul, p{
       margin-top: 2px;
       margin-bottom: 2px;
     }
@@ -84,6 +83,99 @@
 
     &__tag-name{
       font-size: 12px;
+
+      &--page{
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1024px){
+  .photographer{
+  
+    &--page{
+      padding: 60px 50px;
+      background-color: $secondSecondaryColor;
+    }
+  
+    &__idContainer{
+      &--page{
+        display: flex;
+      }
+  
+      &__picture{
+  
+        &--page{
+          height: 200px;
+          align-self: center;
+          width: 200px;
+        }
+      }
+    
+      &__name{
+        &--page{
+          grid-row: 1/1;
+          font-size: 64px;
+        }
+      }
+    }
+  
+    &__container{    
+      &--page{
+        display: grid;
+        grid-template-rows: repeat(4);
+        grid-row-gap: 10px;
+        grid-column-gap: 15px;
+        text-align: start;
+        align-self: center;
+      }
+
+      h1, h2, ul, p{
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+  
+      &__location{
+        &--page{
+          grid-row: 2/2;
+          font-size: 24px;
+        }
+      }
+  
+      &__description{
+        &--page{
+          grid-row: 3/3;
+          font-size: 18px;
+        }
+      }
+  
+      /*&__price{
+        font-size: 9px;
+        color: #757575;
+      }*/
+
+      &__hashtags{
+        &--page{
+          grid-row: 4/ 4;
+        }
+      }
+  
+      &__tag-name{
+        &--page{
+          font-size: 18px;
+        }
+      }
+
+      .contact-btn{
+        grid-column: 2/2;
+        position: inherit;
+        padding: 20px 10px;
+        margin: 0;
+        height: 70px;
+        align-self: center;
+        font-size: 20px;
+      }
     }
   }
 }

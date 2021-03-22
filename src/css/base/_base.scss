@@ -9,11 +9,16 @@
   color: inherit;
 }
 
+body{
+  position: relative;
+}
+
 header, main{
-  margin-left: 7%;
-  margin-right: 7%;
+  padding-left: 7%;
+  padding-right: 7%;
 }
 
 main{
-  margin-bottom: 75px;
+  position: relative;
+  padding-bottom: 75px;
 }

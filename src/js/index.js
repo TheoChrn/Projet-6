@@ -1,4 +1,7 @@
 import './../css/main.scss'
 import './../public/template.html'
+import './../public/pages/mimikeel.html'
 import './validateform'
-//  import './../public/assets/images/Photographers_ID_Photos/MimiKeel.jpg'
+import './sort'
+// import './photographers.js'
+// import './../public/assets/images/logo.png'
