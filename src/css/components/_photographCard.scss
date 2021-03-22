@@ -89,6 +89,35 @@
       }
     }
   }
+
+  &__informations{
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    width: 375px;
+    border-radius: 5px 5px 0 0;
+    background-color: $secondPrimaryColor;
+    bottom: 0;
+    right: 40px;
+
+    &__likes__number, &__likes__heart, &__dailyprice{
+      color: black;
+      font-size: 24px;
+    }
+
+    &__likes{
+
+    }
+
+    &__heart{
+
+    }
+    
+    &__dailyprice{
+
+    }
+  }
 }
 
 @media all and (min-width: 1024px){

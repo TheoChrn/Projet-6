@@ -15,7 +15,7 @@
     height: 100%;
     max-width: 100%;
     padding: 30px 15px;
-    background-color: lighten($color: $secondPrimaryColor, $amount: 15);
+    background-color: $secondPrimaryColor;
 
     &__name{
       display: block;
