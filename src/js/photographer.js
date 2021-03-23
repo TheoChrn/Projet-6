@@ -1,12 +1,17 @@
-class Photographers{
+class Photographer{
 
-  constructor(){
-    this.firstname = firstname
-    this.lastname = lastname
-    this.town = town
+  constructor(name, id, city, country, tags, tagline, price, portrait){
+    this.name = name
+    this.id = id
+    this.city = city
     this.country = country
-    this.slogan = slogan
-    this.dailyprice = dailyprice
     this.tags = tags
+    this.tagline = tagline
+    this.price = price
+    this.portrait = portrait
   }
 }
+
+let Mimi = new Photographer(
+  
+)
