@@ -9,3 +9,10 @@
     width: 200px;
   }
 }
+
+
+@media all and (min-width: 1023px){
+  .logo{ 
+    grid-column: 1 / span 3;
+  }
+}
