@@ -1,17 +1,14 @@
-class Photographer{
-
-  constructor(name, id, city, country, tags, tagline, price, portrait){
-    this.name = name
-    this.id = id
-    this.city = city
-    this.country = country
-    this.tags = tags
-    this.tagline = tagline
-    this.price = price
-    this.portrait = portrait
+const params = (new URL(document.location)).searchParams
+const id = params.get('id')
+const getData = () => import('../../data.json')
+getData().then(res => {
+  const data = res.default
+  const photographer = data.photographers.find(p => `${p.id}` === id)
+  console.log(photographer)
+  if (photographer === undefined) {
+    window.location = 'index.html'
   }
-}
-
-let Mimi = new Photographer(
-  
-)
+  // Créer la page
+  // Filtrer Tableau / comment filtrer un tableau
+  // Utiliser fonction render de l'objet media
+})

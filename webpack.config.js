@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const options = {
     //options
 };
-const { config } = require('webpack');
+const { DefinePlugin } = require('webpack');
 const dev = process.env.NODE_ENV === 'dev'
 const cssLoaders = [
     {
@@ -65,7 +65,10 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            ['@babel/preset-env', { targets: "defaults" }]
+                            '@babel/preset-env',
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime'
                         ]
                     }
                 }
@@ -127,12 +130,15 @@ module.exports = {
         ]
     },
     plugins: [
+        new DefinePlugin({
+            url: JSON.stringify('https://raw.githubusercontent.com/Volturuss/Projet-6/development_photographer_page-factory/data.json')
+        }),
         new MiniCssExtractPlugin({
             filename: dev ? '[name].css' : '[name].[contenthash:8].css',
         }),
         new HtmlWebpackPlugin({
-            filename: './mimikeel.html',
-            template: './src/public/pages/mimikeel.html',
+            filename: './profil.html',
+            template: './src/public/pages/profil.html',
             inject: 'head',
             minify: false,
         }),
