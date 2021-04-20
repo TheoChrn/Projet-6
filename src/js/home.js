@@ -14,7 +14,6 @@ const searchPhotographers = () => {
       if (res.ok) {
         res.json()
           .then(async data => {
-            console.log(data)
             const photographers = data.photographers
             const newPhotographers = photographers.filter(p => {
               return p.tags.includes('events')
@@ -25,7 +24,6 @@ const searchPhotographers = () => {
             set.forEach(e => {
               arr.push(`<a href="#"><li class="tag-name photographer__container__tag-name">#${e}</li></a>`)
             })
-            console.log()
             const logo = await import('../public/assets/images/logo.png')
             header.innerHTML +=
               `
