@@ -1,7 +1,6 @@
 const fetch = require('node-fetch')
 const url = 'https://raw.githubusercontent.com/Volturuss/Projet-6/development_photographer_page-factory/data.json'
 const container = document.querySelector('#container')
-const tag = document.querySelectorAll('.tag-name')
 const main = document.createElement('main')
 const section = document.createElement('section')
 const h1 = document.createElement('h1')
@@ -23,7 +22,7 @@ const searchPhotographers = () => {
             const arr = []
             const set = new Set(data.photographers.map(p => p.tags).reduce((p, c) => [...c, ...p]))
             set.forEach(e => {
-              arr.push(`<a href="#"><li class="tag-name photographer__container__tag-name">#${e}</li></a>`)
+              arr.push(`<a href="#"><li class="tag-name photographer__container__tag-name" data-value="${e}">#${e}</li></a>`)
             })
             console.log()
             const logo = await import('../public/assets/images/logo.png')
@@ -68,6 +67,15 @@ const searchPhotographers = () => {
               </article>
               `
             })
+            const tag = document.querySelectorAll('.tag-name')
+            console.log(tag)
+            for (let i = 0; i < tag.length; i++) {
+              tag[i].addEventListener('click', (e) => {
+                if (e.target && e.target.classList.contains('tag-name')) {
+                  console.log(e.target.dataset.value)
+                }
+              })
+            }
           })
       } else {
         console.log('Erreur')
@@ -89,11 +97,3 @@ const buildPage = () => {
 }
 
 buildPage()
-
-for (let i = 0; i < tag.length; i++) {
-  tag.addEventListener('click', (e) => {
-    if (e.target.value && e.target.className === '.tag-name') {
-      console.log(e.target.value)
-    }
-  })
-}
