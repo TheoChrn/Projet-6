@@ -15,10 +15,10 @@ const searchPhotographers = () => {
           .then(async data => {
             console.log(data)
             const photographers = data.photographers
-            const newPhotographers = photographers.filter(p => {
+            const newPhotographer = photographers.filter(p => {
               return p.tags.includes('events')
             })
-            console.log(newPhotographers)
+            console.log(newPhotographer)
             const arr = []
             const set = new Set(data.photographers.map(p => p.tags).reduce((p, c) => [...c, ...p]))
             set.forEach(e => {
@@ -71,9 +71,41 @@ const searchPhotographers = () => {
             console.log(tag)
             for (let i = 0; i < tag.length; i++) {
               tag[i].addEventListener('click', (e) => {
-                if (e.target && e.target.classList.contains('tag-name')) {
-                  console.log(e.target.dataset.value)
-                }
+                section.innerHTML = ''
+                const newPhotographers = photographers.filter(p => {
+                  return p.tags.includes(e.target.dataset.value)
+                })
+                section.appendChild(h1)
+                h1.innerHTML = 'Photographes'
+                section.id = 'photographers'
+                newPhotographers.forEach(async p => {
+                  const url = await import(`../public/assets/images/Photographers_ID_Photos/${p.portrait}`)
+                  section.innerHTML +=
+                    `
+                <article class="photographer">
+                <a href="profil.html?id=${p.id}">
+                    <div class="photographer__idContainer">
+                        <figure class="photographer__idContainer__picture">
+                            <img src="${url.default}" class="user photographer__idContainer__user" alt="">
+                    </figure>
+                    <h2 class="name photographer__idContainer__name">${p.name}</h2>   
+                    </div>
+                </a>
+                <div class="photographer__container">
+                    <h3 class="location photographer__container__location">${p.city}, ${p.country}</h3>
+                    <p class="description photographer__container__description">${p.tagline}</p>
+                    <small class="photographer__container__price">${p.price}€/jour</small>
+                    <ul class="photographer__container__hashtags">
+                    ${p.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name">#${i}</li></a>`).join('')}
+                      
+                    </ul>
+                </div>
+                </article>
+                `
+                })
+
+                console.log(e.target.dataset.value)
+                console.log(newPhotographers)
               })
             }
           })
