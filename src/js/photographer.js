@@ -4,6 +4,7 @@ const container = document.querySelector('#container')
 const main = document.createElement('main')
 const modal = document.createElement('section')
 const photos = document.createElement('section')
+import { mediaFactory } from './media.js'
 
 const params = (new URL(document.location)).searchParams
 const id = params.get('id')
@@ -95,31 +96,11 @@ getData().then(async res => {
   `
 
   media.forEach(m => {
+    const mediaFromFactory = mediaFactory(m)
+    console.log(mediaFromFactory.createContent())
     photos.innerHTML +=
-      `
-    <article class="photo">
-        <a href="#">
-          <div class="photo__container">
-            <figure class="photo__container__picture">
-              <img src="" class="thumb photo__container__thumb" alt="">
-            </figure>
-          </div>
-        </a>
-        <div class="photo__description">
-          <h2 class="name photo__description__name">Arc-en-ciel</h2>
-          <div class="photo__description__infos">
-            <small class="price photo__description__price">70€</small>
-            <div class="photo__description__like">
-              <small class="number photo__description__like__number">12</small>
-              <i class="heart fas fa-heart"></i>
-            </div>
-          </div>
-        </div>
-    `
+    mediaFromFactory.createContent()
   })
-  // Créer la page
-  // Filtrer Tableau / comment filtrer un tableau
-  // Utiliser fonction render de l'objet media
 })
 
 const buildPage = () => {

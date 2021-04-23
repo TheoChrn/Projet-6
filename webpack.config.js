@@ -38,7 +38,9 @@ if (!dev) {
 module.exports = {
     mode: 'development',
     entry: {
-        bundle: ['./src/css/main.scss', './src/js/index.js']
+        bundle: ['./src/css/main.scss', './src/js/index.js'],
+        index: ['./src/css/main.scss', './src/js/home.js'],
+        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js', './src/js/validateform.js', './src/js/sort.js']
     },
     output: {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',
@@ -52,12 +54,12 @@ module.exports = {
     },
     module: {
         rules: [
-            {
+            /*{
                 enforce: 'pre',
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: ['eslint-loader']
-            },
+            },*/
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -79,6 +81,10 @@ module.exports = {
                 options: {
                     minimize: false,
                 }
+            },
+            {
+                test: /\.mp4$/i,
+                use: 'file-loader?name=videos/[name].[ext]',
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
@@ -141,11 +147,20 @@ module.exports = {
             template: './src/public/pages/profil.html',
             inject: 'head',
             minify: false,
+            chunks: [
+                'media',
+                'photographer',
+                'sort',
+                'validateform'
+            ]
         }),
         new HtmlWebpackPlugin({
             template: './src/public/template.html',
             inject: 'head',
             minify: false,
+            chunks: [
+                'index'
+            ]
         })
     ],
 };
