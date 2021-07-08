@@ -1,0 +1,109 @@
+.lightbox{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0 , .9);
+  z-index: 10;
+  overflow: auto;
+  animation: lightboxIn .5s;
+
+  &.active{
+    display: block;
+  }
+
+  &__fadeout{
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+
+  &__next, &__prev{
+    background: url('../public/assets/images/arrow.svg') center center / 16px 28px no-repeat; 
+    position: fixed;
+    top: 0;
+    right: 20px;
+    margin-top: -14px;
+    z-index: 11;
+    border: none;
+    width: 16px;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  &__prev{
+    transform: rotate(180deg);
+    right: auto;
+    left: 20px;
+  }
+
+  &__close{
+    border: none;
+    width: 30px;
+    height: 30px;
+    background: url('../public/assets/images/cross.svg') center center / 100% 100% no-repeat transparent;
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    z-index: 11;
+  }
+
+  &__next, &__prev, &__close {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  & button{
+    opacity: .5;
+    cursor: pointer;
+    transition: opactity 300ms;
+    text-indent: -3000px;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+  
+  &__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50px;
+    margin-right: 50px;
+    min-height: 100vh;
+
+    & img, & video{
+      max-width: 100%;
+      animation: lightboxIn .5s;
+      height: auto;
+    }
+  }
+
+  &__loader{
+    width: 38px;
+    height: 38px;
+    opacity: .5;
+    background: url('../public/assets/images/loader.svg') center center / no-repeat;
+  }
+
+  @keyframes lightboxIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@media all and (min-width: 769px){
+  .lightbox{
+    &__container{
+      & img, & video{
+        height: 100vh;
+      }
+    }
+  }
+}

@@ -1,10 +1,9 @@
-// DOM
-const header = document.createElement('header')
-const container = document.querySelector('#container')
-const main = document.createElement('main')
-const modal = document.createElement('section')
-const photos = document.createElement('section')
 import { mediaFactory } from './media.js'
+
+// DOM
+const container = document.querySelector('.container')
+const main = document.querySelector('main')
+const photos = document.createElement('section')
 
 const params = (new URL(document.location)).searchParams
 const id = params.get('id')
@@ -13,105 +12,213 @@ getData().then(async res => {
   const data = res.default
   const photographer = data.photographers.find(p => `${p.id}` === id)
   const media = data.media.filter(m => `${m.photographerId}` === id)
-  console.log(media)
+
+  /////////////////////// LIGHTBOX ///////////////////////
+  const lightbox = document.getElementById('lightbox')
+  const lightboxContainer = document.querySelector('.lightbox__container')
+  const lightboxClose = document.querySelector('.lightbox__close')
+  const lightboxPrev = document.querySelector('.lightbox__prev')
+  const lightboxNext = document.querySelector('.lightbox__next')
+
+  // Si le photographe n'existe pas, renvoie vers la page d'accueil
   if (photographer === undefined) {
     window.location = 'index.html'
   }
-  const url = await import(`../public/assets/images/Photographers_ID_Photos/${photographer.portrait}`)
-  const logo = await import('../public/assets/images/logo.png')
+
   document.title = `${photographer.name}`
-  header.innerHTML +=
-    `
-    <figure id="logo">
-      <a href="./">
-        <img src="${logo.default}" alt="Fisheye Home page" class="logo">
-      </a>
-    </figure>
-  `
-  modal.innerHTML +=
-    `
-    <div id="content" class="content">
-    <h2 id="formName" class="name content__name">Contactez-moi<br>${photographer.name}</h2>
-    <div class="cross close-modal">
-      <span class="cross__bar cross__bar--1"></span>
-      <span class="cross__bar cross__bar--2"></span>
-    </div>
-    <div id="modal__body" class="modal__body">
-      <div id="confirmedMessage" class="modal__body__submitMessage">
-        <p>Votre message a bien été envoyé !</p>
-        <button class="btn close-btn">Fermer</button>
-      </div>
-      <form action="" id="form" class="form">
-        <div class="form__data">
-          <label for="first">Prénom</label>
-          <input type="text" name="first" id="first" class="input form__data__input">
-          <small class="form__data__error"></small>
-        </div>
-        <div class="form__data">
-          <label for="last">Nom</label>
-          <input type="text" name="last" id="last" class="input form__data__input">
-          <small class="form__data__error"></small>
-        </div>
-        <div class="form__data">
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" class="input form__data__input">
-          <small class="form__data__error"></small>
-        </div>
-        <div class="form__data">
-          <label for="textarea">Votre message</label>
-          <textarea maxlength="50" name="textarea" id="textarea" class="input form__data__input"></textarea>
-          <small class="form__data__error"></small>
-        </div>
-        <input type="submit" class="btn submit-btn" value="Envoyer">
-      </form>
-    </div>
-  </div>
-  `
-  main.innerHTML +=
-    `
-  <article class="photographer photographer--page">
-      <div class="photographer__idContainer photographer__idContainer--page">
-        <figure class="photographer__idContainer__picture photographer__idContainer__picture--page">
-          <img src="${url.default}"
-            class="user photographer__idContainer__user photographer__idContainer__user--page" alt="">
-        </figure>
-      </div>
-      <div class="photographer__container photographer__container--page">
-        <h1 class="name photographer__idContainer__name photographer__idContainer__name--page">${photographer.name}</h1>
-        <h2 class="location photographer__container__location photographer__container__location--page">${photographer.city}, ${photographer.country}</h2>
-        <p class="description photographer__container__description photographer__container__description--page">${photographer.tagline}</p>
-        <ul class="photographer__container__hashtags photographer__container__hashtags--page">
-          ${photographer.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name photographer__container__tag-name--page">#${i}</li></a>`).join('')}
-        </ul>
-        <button id="contact-btn" class="btn contact-btn" aria-label="Contactez-moi">Contactez-moi</button>
-        <aside class="photographer__informations">
-          <div class="photographer__informations__likes">
-            <small class="number photographer__informations__likes__number">297 081</small>
-            <i class="heart photographer__informations__likes__heart fas fa-heart"></i>
-          </div>
-          <small class="price photographer__informations__dailyprice">${photographer.price}€/jour</small>
-        </aside>
-      </div>
-    </article>
-  `
 
-  media.forEach(m => {
-    const mediaFromFactory = mediaFactory(m)
-    console.log(mediaFromFactory.createContent())
-    photos.innerHTML +=
-    mediaFromFactory.createContent()
+  const buildPage = () => {
+    document.body.appendChild(container)
+    container.appendChild(main)
+    main.appendChild(photos)
+    photos.id = 'photos'
+  }
+  buildPage()
+
+  // Injecte les différentes propriété de l'objet dans les balises HTML
+  const profilePortrait = document.getElementById('profilePortrait')
+  profilePortrait.src = `./src/public/assets/images/Photographers_ID_Photos/${photographer.portrait}`
+  profilePortrait.alt = photographer.name
+  document.getElementById('profileName').innerHTML = photographer.name
+  document.getElementById('profileLocation').innerHTML = `${photographer.city}, ${photographer.country}`
+  document.getElementById('profileTagLine').innerHTML = photographer.tagline
+  document.getElementById('profileTagList').innerHTML = `${photographer.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name photographer__container__tag-name--page">#${i}</li></a>`).join('')}`
+  document.getElementById('profilePrice').innerHTML = `${photographer.price}€/jour`
+
+  // Créer un nouveau tableau des media avec la méthode mediaFactory
+  const mediaFromFactory = media.map(m => mediaFactory(m))
+
+  // Injecte la somme des likes des medias dans le compteur
+  likeCounter.innerHTML = mediaFromFactory.map(i => i.likes).reduce((a, b) => a + b)
+
+  // Trie le tableau par nombre de likes
+  mediaFromFactory.sort((a, b) => (b.likes - a.likes))
+
+  // Créer un nouveau nom de photographe en remplacement les "-" par des espaces 
+  let newPhotographerName = photographer.name.replace('-', ' ').split(' ')
+
+  // Retire le nom de famille du photographe
+  newPhotographerName.pop()
+
+  // Injecte le nouveau tableau 
+  photos.innerHTML = mediaFromFactory.map(m => m.createContent(newPhotographerName.join(' '), m.name)).join(' ')
+
+  // REPLACER EN HAUT DU FICHIER
+
+  const countLikes = () => {
+    const likeCounter = document.getElementById('likeCounter')
+    const like = document.querySelectorAll('.heart')
+
+    // Pour chaque element "like"
+    like.forEach(element => {
+
+      // Au clique
+      element.addEventListener('click', e => {
+
+        // Cherche si le dataset de la cible est égal à l'id du media
+        const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
+
+        // Si non annule
+        if (!media) return;
+
+        // Récupère le conteneur de like
+        const likeNumber = document.getElementById(`count_${media.id}`)
+
+        // Ajoute un like au conteneur du media
+        likeNumber.innerHTML = media.addLike()
+
+        // Injecte la nouvelle somme des likes des medias dans le compteur
+        likeCounter.innerHTML = mediaFromFactory.map(i => i.likes).reduce((a, b) => a + b)
+      })
+    })
+  }
+  countLikes()
+
+  let currentIndex
+
+  const x = () => {
+
+    // Pour chaque élément de lightBoxMedia
+    document.querySelectorAll('.src').forEach(element => {
+      console.log(element)
+
+      // Au click
+      element.addEventListener('click', e => {
+
+        document.querySelectorAll('[aria-disable="false"]').forEach(element => {
+          element.setAttribute('aria-disable' , 'true')
+        })
+      
+        // Cherche si le dataset de la cible est égal à l'id du media
+        const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
+        
+        // Si non annule
+        if (!media) return;
+
+        // Active la class '.active'
+        lightbox.classList.add('active')
+
+        // Injecte la balise du média dans le container de la lightbox
+        lightboxContainer.innerHTML = media.getMediaAsHTML(newPhotographerName.join(' '))
+
+        // Cherche et stock l'index du média
+        currentIndex = mediaFromFactory.findIndex(m => m.id == e.target.dataset.mediaid)
+      })
+    })
+  }
+  x()
+
+  const sortX = document.getElementById('sort-x')
+
+  document.getElementById('sort-popularity').addEventListener('click', () => {
+    sortX.innerHTML = 'Popularité'
+
+    // Tri le tableau par ordre décroissant de likes
+    mediaFromFactory.sort((a, b) => (b.likes - a.likes))
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    countLikes()
+    x()
   })
-})
 
-const buildPage = () => {
-  document.body.appendChild(container)
-  container.appendChild(header)
-  header.id = 'header'
-  container.appendChild(main)
-  container.appendChild(modal)
-  modal.id = 'modal'
-  modal.className = 'modal'
-  main.appendChild(photos)
-  photos.id = 'photos'
-}
-buildPage()
+  document.getElementById('sort-date').addEventListener('click', () => {
+    sortX.innerHTML = 'Date'
+
+    // Tri le tableau du plus récent au plus vieux
+    mediaFromFactory.sort((a, b) => (new Date(b.date) - new Date(a.date)))
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    countLikes()
+    x()
+  })
+
+  document.getElementById('sort-title').addEventListener('click', () => {
+    sortX.innerHTML = 'Titre'
+
+    // Tri le tableau par ordre alphabétique
+    mediaFromFactory.sort((a, b) => {
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
+    })
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    countLikes()
+    x()
+  })
+
+  const dropDownEl = document.getElementById('dropdown-trigger')
+
+  // Au clique
+  dropDownEl.addEventListener('click', () => {
+
+    // Active la classe .expanded
+    dropDownEl.classList.toggle('expanded')
+  })
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.remove('active')
+    document.querySelectorAll('[aria-disable="true"]').forEach(element => {
+      element.setAttribute('aria-disable' , 'false')
+    })
+  })
+
+  lightboxPrev.addEventListener('click', e => {
+
+    // Annule le comportement par défaut
+    e.preventDefault()
+
+    // Si l'index = 0
+    if (currentIndex == 0) {
+
+      // Alors prend l'index du dernier élément du tableau
+      currentIndex = mediaFromFactory.length - 1
+    } else {
+
+      // Sinon soustrait 1
+      currentIndex--
+    }
+
+    // Injecte la balise du média avec le nouvel index dans le container de la lightbox
+    lightboxContainer.innerHTML = mediaFromFactory[currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
+  })
+
+  lightboxNext.addEventListener('click', e => {
+
+    // Annule le comportement par défaut
+    e.preventDefault()
+
+    // Si l'index est égal au dernier élément du tableau
+    if (currentIndex == mediaFromFactory.length - 1) {
+
+      // Alors prends l'index du premier élément du tableau
+      currentIndex = 0
+    } else {
+
+      // Sinon ajoute 1
+      currentIndex++
+    }
+
+    // Injecte la balise du média avec le nouvel index dans le container de la lightbox
+    lightboxContainer.innerHTML = mediaFromFactory[currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
+  })
+
+  document.getElementById('content').ariaLabel = `Contactez-moi ${photographer.name}`
+})

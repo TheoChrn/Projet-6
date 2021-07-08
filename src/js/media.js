@@ -1,5 +1,5 @@
 class Media {
-  constructor (id, photographerId, tags, likes, date, price, src) {
+  constructor(id, photographerId, tags, likes, date, price, src) {
     this.id = id
     this.photographerId = photographerId
     this.tags = tags
@@ -7,66 +7,111 @@ class Media {
     this.date = date
     this.price = price
     this.src = src
+    this.name = this.clearMediaName()
   }
-  createContent() {}
+
+  getMediaAsHTML() { }
+
+  createContent() { }
+
+  clearMediaName() {
+
+    // Stock le chemin du média
+    let name = this.src
+
+    // Remplace ce qui n'est pas un chiffre ou une lettre par un espace et divise la chaîne de caractère dans un tableau
+    name = name.replace(/[^0-9a-zA-Z]/g, ' ').toLowerCase().split(' ')
+
+    // Supprime le premier élément du tableau
+    name.shift()
+
+    // Supprime le dernier élement du tableau
+    name.pop()
+
+    // Fusionne les élements du tableau en spérants les différentes chaînes par un espace
+    name = name.join(' ')
+
+    // Renvois un objet tableau contenant le nouveau nom du média
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+  
+  addLike() {
+    this.likes++
+    return this.likes
+  }
 }
 
 class Image extends Media {
-  createContent() {
+  createContent(name, title) {
     return `
     <article class="photo">
     <a href="#">
       <div class="photo__container">
         <figure class="photo__container__picture">
-        <img src="../public/assets/images/${photographer.name}/${this.src}" class="">
+          <img data-mediaid="${this.id}" src="./src/public/assets/images/${name}/${this.src}" class="src thumb photo__container__thumb" alt="${title}">
         </figure>
       </div>
     </a>
     <div class="photo__description">
-      <h2 class="name photo__description__name">Arc-en-ciel</h2>
+      <h2 class="name photo__description__name">${title}</h2>
       <div class="photo__description__infos">
-        <small class="price photo__description__price">${this.price}€</small>
-        <div class="photo__description__like">
-          <small class="number photo__description__like__number">${this.likes}</small>
-          <i class="heart fas fa-heart"></i>
+        <span class="price photo__description__price">${this.price}€</span>
+        <div class="photo__description__like" data-mediaid="${this.id}">
+          <span id="count_${this.id}" class="number photo__description__like__number">${this.likes}</span>
+          <i class="heart fas fa-heart "></i>
         </div>
       </div>
     </div>
   </article>
   `
-  } 
+  }
+
+  getMediaAsHTML(name) { 
+    return `
+    <img src="./src/public/assets/images/${name}/${this.src}" alt="${this.name}">
+    `
+  }
 }
 
 class Video extends Media {
-  createContent() {
-    return `<article class="photo">
+  createContent(name, title) {
+    return`
+    <article class="photo">
     <a href="#">
       <div class="photo__container">
         <figure class="photo__container__picture">
-        <video src="${this.src}" class="">
+          <video data-mediaid="${this.id}" class="src thumb photo__container__thumb" aria-label="${title}" title="${title}">
+            <source src="./src/public/assets/images/${name}/${this.src}" type="video/mp4">
+          </video>
         </figure>
       </div>
     </a>
     <div class="photo__description">
-      <h2 class="name photo__description__name">Arc-en-ciel</h2>
+      <h2 class="name photo__description__name">${title}</h2>
       <div class="photo__description__infos">
-        <small class="price photo__description__price">${this.price}€</small>
-        <div class="photo__description__like">
-          <small class="number photo__description__like__number">${this.likes}</small>
+        <span class="price photo__description__price">${this.price}€</span>
+        <div class="photo__description__like" data-mediaid="${this.id}">
+        <span id="count_${this.id}" class="number photo__description__like__number">${this.likes}</span>
           <i class="heart fas fa-heart"></i>
         </div>
       </div>
     </div>
   </article>`
   }
+
+  getMediaAsHTML(name) { 
+    return `
+    <video controls>
+          <source src="./src/public/assets/images/${name}/${this.src}" type="video/mp4">
+    </video>
+    `
+  }
 }
 
 export function mediaFactory(obj) {
-  if (obj.hasOwnProperty('image')){
+  if (obj.hasOwnProperty('image')) {
     return new Image(obj.id, obj.photographerId, obj.tags, obj.likes, obj.date, obj.price, obj.image)
-  }
-  else if (obj.hasOwnProperty('video')){
+  } else if (obj.hasOwnProperty('video')) {
     return new Video(obj.id, obj.photographerId, obj.tags, obj.likes, obj.date, obj.price, obj.video)
   }
 }
-

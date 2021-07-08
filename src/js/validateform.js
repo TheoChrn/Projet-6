@@ -10,13 +10,24 @@ const first = document.getElementById('first')
 const last = document.getElementById('last')
 const eMail = document.getElementById('email')
 const textarea = document.getElementById('textarea')
+const main = document.querySelector('main')
 
 // Open modal
 contactBtn.addEventListener('click', openModal)
 
 function openModal () {
   modal.style.display = 'block'
+  document.querySelector('main').setAttribute('aria-hidden' , 'true')
+  contactBtn.focus()
+
 }
+
+document.addEventListener('keydown', e => {
+  let keyCode = e.keyCode
+  if (keyCode === 27){
+    closeModal()
+  }
+})
 
 // Close modal event
 closeBtn.addEventListener('click', closeModal)
@@ -28,6 +39,7 @@ function closeModal () {
   form.style.display = 'block'
   confirmMessage.style.display = 'none'
   formName.style.display = 'block'
+  document.querySelector('main').setAttribute('aria-hidden' , 'false')
 }
 
 form.addEventListener('submit', (event) => {

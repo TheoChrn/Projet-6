@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -40,7 +41,7 @@ module.exports = {
     entry: {
         bundle: ['./src/css/main.scss', './src/js/index.js'],
         index: ['./src/css/main.scss', './src/js/home.js'],
-        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js', './src/js/validateform.js', './src/js/sort.js']
+        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js', './src/js/validateform.js']
     },
     output: {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',
@@ -54,12 +55,6 @@ module.exports = {
     },
     module: {
         rules: [
-            /*{
-                enforce: 'pre',
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: ['eslint-loader']
-            },*/
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -112,7 +107,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             esModule: false,
-                            name: '[name].[hash:6].[ext]',
+                            name: '[name].[ext]',
                             emitFile: true,
                         }
                     },*/
@@ -136,6 +131,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: "./src/public/assets/images/**/*", to: "./",
+                },
+            ],
+        }),
+
         new DefinePlugin({
             url: JSON.stringify('https://raw.githubusercontent.com/Volturuss/Projet-6/development_photographer_page-factory/data.json')
         }),
