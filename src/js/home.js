@@ -22,7 +22,7 @@ const searchPhotographers = () => {
             set.forEach(e => {
 
               // Rentre une li contenant un tag dans le tableau
-              arr.push(`<a href="#"><li class="tag-name nav-tag photographer__container__tag-name" data-value="${e}">#${e}</li></a>`)
+              arr.push(`<a href="#"><li class="tag-name nav-tag photographer__container__tag-name"  aria-label="${e}" data-value="${e}">#${e}</li></a>`)
             })
 
             // Injecte le tableau dans une balide <ul>
@@ -45,7 +45,7 @@ const searchPhotographers = () => {
                     <p class="description photographer__container__description">${p.tagline}</p>
                     <small class="photographer__container__price">${p.price}€/jour</small>
                     <ul class="photographer__container__hashtags">
-                    ${p.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name">#${i}</li></a>`).join('')}
+                    ${p.tags.map(i => `<li class="tag-name photographer__container__tag-name">#${i}</li>`).join('')}
                       
                     </ul>
                 </div>

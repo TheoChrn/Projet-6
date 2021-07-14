@@ -45,10 +45,10 @@ class Image extends Media {
   createContent(name, title) {
     return `
     <article class="photo">
-    <a href="#">
+    <a href="#" tab-index="-1">
       <div class="photo__container">
         <figure class="photo__container__picture">
-          <img data-mediaid="${this.id}" src="./src/public/assets/images/${name}/${this.src}" class="src thumb photo__container__thumb" alt="${title}">
+          <img tab-index="0" data-mediaid="${this.id}" src="./src/public/assets/images/${name}/${this.src}" class="src thumb photo__container__thumb" alt="${title}">
         </figure>
       </div>
     </a>
@@ -77,11 +77,11 @@ class Video extends Media {
   createContent(name, title) {
     return`
     <article class="photo">
-    <a href="#">
+    <a href="#" tab-index="-1">
       <div class="photo__container">
         <figure class="photo__container__picture">
           <video data-mediaid="${this.id}" class="src thumb photo__container__thumb" aria-label="${title}" title="${title}">
-            <source src="./src/public/assets/images/${name}/${this.src}" type="video/mp4">
+            <source tab-index="0" src="./src/public/assets/images/${name}/${this.src}" type="video/mp4">
           </video>
         </figure>
       </div>
@@ -91,7 +91,7 @@ class Video extends Media {
       <div class="photo__description__infos">
         <span class="price photo__description__price">${this.price}€</span>
         <div class="photo__description__like" data-mediaid="${this.id}">
-        <span id="count_${this.id}" class="number photo__description__like__number">${this.likes}</span>
+        <span id="count_${this.id}"  class="number photo__description__like__number">${this.likes}</span>
           <i class="heart fas fa-heart"></i>
         </div>
       </div>

@@ -42,7 +42,7 @@ getData().then(async res => {
   document.getElementById('profileName').innerHTML = photographer.name
   document.getElementById('profileLocation').innerHTML = `${photographer.city}, ${photographer.country}`
   document.getElementById('profileTagLine').innerHTML = photographer.tagline
-  document.getElementById('profileTagList').innerHTML = `${photographer.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name photographer__container__tag-name--page">#${i}</li></a>`).join('')}`
+  document.getElementById('profileTagList').innerHTML = `${photographer.tags.map(i => `<li class="tag-name photographer__container__tag-name photographer__container__tag-name--page">#${i}</li>`).join('')}`
   document.getElementById('profilePrice').innerHTML = `${photographer.price}€/jour`
 
   // Créer un nouveau tableau des media avec la méthode mediaFactory
@@ -96,22 +96,52 @@ getData().then(async res => {
 
   let currentIndex
 
-  const x = () => {
+  const lockFocus = (container) => {
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    const firstFocusableElement = container.querySelectorAll(focusableElements)[0]
+    const focusableContent = container.querySelectorAll(focusableElements)
+    const lastFocusableElement = focusableContent[focusableContent.length - 1]
+
+    document.addEventListener('keydown', function (e) {
+      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+      if (!isTabPressed) {
+        return;
+      }
+
+      if (e.shiftKey) { // if shift key pressed for shift + tab combination
+        if (document.activeElement === firstFocusableElement) {
+          lastFocusableElement.focus() // add focus for the last focusable element
+          e.preventDefault()
+        }
+      } else { // if tab key is pressed
+        if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+          firstFocusableElement.focus() // add focus for the first focusable element
+          e.preventDefault()
+        }
+      }
+    })
+  }
+
+  const openLightBox = () => {
 
     // Pour chaque élément de lightBoxMedia
     document.querySelectorAll('.src').forEach(element => {
-      console.log(element)
-
+      
       // Au click
       element.addEventListener('click', e => {
+        lockFocus(lightbox)
+        lightboxClose.focus()
+        console.log(lightboxClose)
 
-        document.querySelectorAll('[aria-disable="false"]').forEach(element => {
-          element.setAttribute('aria-disable' , 'true')
+        document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
+          element.setAttribute('aria-hidden', 'true')
         })
-      
+        lightbox.setAttribute('aria-hidden', 'false')
+
         // Cherche si le dataset de la cible est égal à l'id du media
         const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
-        
+
         // Si non annule
         if (!media) return;
 
@@ -126,7 +156,7 @@ getData().then(async res => {
       })
     })
   }
-  x()
+  openLightBox()
 
   const sortX = document.getElementById('sort-x')
 
@@ -137,7 +167,8 @@ getData().then(async res => {
     mediaFromFactory.sort((a, b) => (b.likes - a.likes))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    x()
+    openLightBox()
+    lockFocus(lightbox)
   })
 
   document.getElementById('sort-date').addEventListener('click', () => {
@@ -147,7 +178,8 @@ getData().then(async res => {
     mediaFromFactory.sort((a, b) => (new Date(b.date) - new Date(a.date)))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    x()
+    openLightBox()
+    lockFocus(lightbox)
   })
 
   document.getElementById('sort-title').addEventListener('click', () => {
@@ -161,7 +193,8 @@ getData().then(async res => {
     })
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    x()
+    openLightBox()
+    lockFocus(lightbox)
   })
 
   const dropDownEl = document.getElementById('dropdown-trigger')
@@ -176,8 +209,12 @@ getData().then(async res => {
   lightboxClose.addEventListener('click', () => {
     lightbox.classList.remove('active')
     document.querySelectorAll('[aria-disable="true"]').forEach(element => {
-      element.setAttribute('aria-disable' , 'false')
+      element.setAttribute('aria-disable', 'false')
     })
+  })
+
+  lightboxClose.addEventListener('focus', (e) =>{
+    console.log(e)
   })
 
   lightboxPrev.addEventListener('click', e => {
@@ -221,4 +258,5 @@ getData().then(async res => {
   })
 
   document.getElementById('content').ariaLabel = `Contactez-moi ${photographer.name}`
+
 })

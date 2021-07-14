@@ -1,7 +1,7 @@
 .sortBy{
   display: none;
 
-  & span {
+  & > span {
     align-self: flex-start;
     margin-top: 1em;
     margin-right: .5em;
@@ -18,7 +18,6 @@
   text-align: left;
   white-space: nowrap;
   color: white;
-  outline: none;
   border: .06em solid transparent;
   border-radius: 5px;
   background-color: $firstPrimaryColor;
@@ -29,11 +28,7 @@
     height: 100%;
   }
 
-  .dropdown-selection, .dropdown-selected div{
-    padding-left: .5em;
-  }
-
-  & div {
+  [role=listitem] {
     font-weight: 700;
     font-size: 18px;
     color: white;
@@ -42,14 +37,14 @@
     line-height: 2em;
     cursor: pointer;
     position: relative;
-
+    padding-left: 0.5em;
   }
   
   &::before {
     content:"";
     position: absolute;
     right: 1.5em;
-    top: 1.45em;
+    top: 1.85em;
     border: .5em solid $firstPrimaryColor;
     border-color: white transparent transparent transparent;
   }
@@ -58,7 +53,7 @@
     content:"";
     position: absolute;
     right: 1.5em;
-    top: 1.2em;
+    top: 1.6em;
     border: .5em solid $firstPrimaryColor;
     border-color: $firstPrimaryColor transparent transparent transparent;
   }
@@ -73,8 +68,9 @@
     .dropdown-selection{
       display: block;
 
-      div{
-        padding: 5px 0;
+      [role=listitem]{
+        padding-top: 5px;
+        padding-bottom: 5px;
 
         &:nth-child(1) {
           padding-top: 0;
