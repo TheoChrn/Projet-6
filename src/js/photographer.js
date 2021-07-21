@@ -8,7 +8,7 @@ const photos = document.createElement('section')
 const params = (new URL(document.location)).searchParams
 const id = params.get('id')
 const getData = () => import('../../data.json')
-getData().then(async res => {
+getData().then(res => {
   const data = res.default
   const photographer = data.photographers.find(p => `${p.id}` === id)
   const media = data.media.filter(m => `${m.photographerId}` === id)
@@ -45,6 +45,13 @@ getData().then(async res => {
   document.getElementById('profileTagList').innerHTML = `${photographer.tags.map(i => `<li class="tag-name photographer__container__tag-name photographer__container__tag-name--page">#${i}</li>`).join('')}`
   document.getElementById('profilePrice').innerHTML = `${photographer.price}€/jour`
 
+  const isEnterPressed = (enter) => {
+    let keyCode = enter.key
+    if (keyCode === 'Enter') {
+      return keyCode
+    }
+  }
+
   // Créer un nouveau tableau des media avec la méthode mediaFactory
   const mediaFromFactory = media.map(m => mediaFactory(m))
 
@@ -65,19 +72,19 @@ getData().then(async res => {
 
   // REPLACER EN HAUT DU FICHIER
 
+  let article = document.querySelectorAll('article')
+
   const countLikes = () => {
     const likeCounter = document.getElementById('likeCounter')
-    const like = document.querySelectorAll('.heart')
+    const like = document.querySelectorAll('.count-heart')
 
     // Pour chaque element "like"
     like.forEach(element => {
 
       // Au clique
       element.addEventListener('click', e => {
-
         // Cherche si le dataset de la cible est égal à l'id du media
         const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
-
         // Si non annule
         if (!media) return;
 
@@ -94,8 +101,6 @@ getData().then(async res => {
   }
   countLikes()
 
-  let currentIndex
-
   const lockFocus = (container) => {
     const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     const firstFocusableElement = container.querySelectorAll(focusableElements)[0]
@@ -103,7 +108,7 @@ getData().then(async res => {
     const lastFocusableElement = focusableContent[focusableContent.length - 1]
 
     document.addEventListener('keydown', function (e) {
-      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+      let isTabPressed = e.key === 'Tab' || e.key === 9;
 
       if (!isTabPressed) {
         return;
@@ -123,68 +128,58 @@ getData().then(async res => {
     })
   }
 
-  const openLightBox = () => {
-
-    // Pour chaque élément de lightBoxMedia
-    document.querySelectorAll('.src').forEach(element => {
-      
-      // Au click
-      element.addEventListener('click', e => {
-        lockFocus(lightbox)
-        lightboxClose.focus()
-        console.log(lightboxClose)
-
-        document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
-          element.setAttribute('aria-hidden', 'true')
-        })
-        lightbox.setAttribute('aria-hidden', 'false')
-
-        // Cherche si le dataset de la cible est égal à l'id du media
-        const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
-
-        // Si non annule
-        if (!media) return;
-
-        // Active la class '.active'
-        lightbox.classList.add('active')
-
-        // Injecte la balise du média dans le container de la lightbox
-        lightboxContainer.innerHTML = media.getMediaAsHTML(newPhotographerName.join(' '))
-
-        // Cherche et stock l'index du média
-        currentIndex = mediaFromFactory.findIndex(m => m.id == e.target.dataset.mediaid)
-      })
-    })
-  }
-  openLightBox()
-
   const sortX = document.getElementById('sort-x')
 
-  document.getElementById('sort-popularity').addEventListener('click', () => {
+  const sortByPopularity = () => {
     sortX.innerHTML = 'Popularité'
-
     // Tri le tableau par ordre décroissant de likes
     mediaFromFactory.sort((a, b) => (b.likes - a.likes))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
     openLightBox()
     lockFocus(lightbox)
+  }
+
+  const popularity = document.getElementById('sort-popularity')
+
+  popularity.addEventListener('click', () => {
+    sortByPopularity()
   })
 
-  document.getElementById('sort-date').addEventListener('click', () => {
-    sortX.innerHTML = 'Date'
+  popularity.addEventListener('keydown', (enter) => {
+    if (!isEnterPressed(enter)) return
+    else {
+      sortByPopularity()
+    }
+  })
 
+  const sortByDate = () => {
+    sortX.innerHTML = 'Date'
     // Tri le tableau du plus récent au plus vieux
     mediaFromFactory.sort((a, b) => (new Date(b.date) - new Date(a.date)))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
     openLightBox()
     lockFocus(lightbox)
+  }
+
+  const date = document.getElementById('sort-date')
+
+  date.addEventListener('click', () => {
+    sortByDate()
   })
 
-  document.getElementById('sort-title').addEventListener('click', () => {
-    sortX.innerHTML = 'Titre'
+  date.addEventListener('keydown', (enter) => {
+    if (!isEnterPressed(enter)) return
+    else {
+      sortByDate()
+    }
+  })
 
+  const title = document.getElementById('sort-title')
+
+  const sortByTitle = () => {
+    sortX.innerHTML = 'Titre'
     // Tri le tableau par ordre alphabétique
     mediaFromFactory.sort((a, b) => {
       if (a.name < b.name) return -1
@@ -195,6 +190,17 @@ getData().then(async res => {
     countLikes()
     openLightBox()
     lockFocus(lightbox)
+  }
+
+  title.addEventListener('click', () => {
+    sortByTitle()
+  })
+
+  title.addEventListener('keydown', (enter) => {
+    if (!isEnterPressed(enter)) return
+    else {
+      sortByTitle()
+    }
   })
 
   const dropDownEl = document.getElementById('dropdown-trigger')
@@ -206,15 +212,62 @@ getData().then(async res => {
     dropDownEl.classList.toggle('expanded')
   })
 
+  let currentIndex
+
+  const injecteInsideLightbox = (e) => {
+
+    // Cherche si le dataset de la cible est égal à l'id du media
+    const media = mediaFromFactory.find(m => m.id === e.target.dataset.mediaid)
+
+    // Si non annule
+    if (!media) return;
+
+    // Active la class '.active'
+    lightbox.classList.add('active')
+
+    // Injecte la balise du média dans le container de la lightbox
+    lightboxContainer.innerHTML = media.getMediaAsHTML(newPhotographerName.join(' '))
+
+    // Cherche et stock l'index du média
+    currentIndex = mediaFromFactory.findIndex(m => m.id == e.target.dataset.mediaid)
+  }
+
+  const showLightboxAria = () => {
+    document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
+      element.setAttribute('aria-hidden', 'true')
+    })
+    lightbox.setAttribute('aria-hidden', 'false')
+  }
+
+  const hideLightboxAria = () => {
+    document.querySelectorAll('[aria-hidden="true"]').forEach(element => {
+      element.setAttribute('aria-hidden', 'false')
+    })
+    lightbox.setAttribute('aria-hidden', 'true')
+  }
+
+  const openLightBox = () => {
+
+    // Pour chaque élément de lightBoxMedia
+    document.querySelectorAll('.src').forEach(element => {
+
+      // Au click
+      element.addEventListener('click', e => {
+        lockFocus(lightbox)
+        lightboxClose.focus()
+        showLightboxAria()
+        injecteInsideLightbox(e)
+      })
+    })
+  }
+  openLightBox()
+
   lightboxClose.addEventListener('click', () => {
     lightbox.classList.remove('active')
-    document.querySelectorAll('[aria-disable="true"]').forEach(element => {
-      element.setAttribute('aria-disable', 'false')
-    })
+    hideLightboxAria()
   })
 
-  lightboxClose.addEventListener('focus', (e) =>{
-    console.log(e)
+  lightboxClose.addEventListener('focus', (e) => {
   })
 
   lightboxPrev.addEventListener('click', e => {
@@ -257,6 +310,117 @@ getData().then(async res => {
     lightboxContainer.innerHTML = mediaFromFactory[currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
   })
 
+  const a = photos.querySelectorAll('a')
+  a.forEach(element => {
+    element.addEventListener('keydown', e => {
+      if (!isEnterPressed(e)) return
+      else {
+        lockFocus(lightbox)
+        lightboxClose.focus()
+        showLightboxAria()
+        injecteInsideLightbox(e)
+      }
+    })
+  })
+
+  /*class Lightbox{
+    constructor(lightboxContainer) {
+      this.lightboxContainer = lightboxContainer
+      this.lightboxClose = lightboxClose
+      this.lightboxPrev = lightboxPrev
+      this.lightboxNext = lightboxNext
+      this.lightbox = document.getElementById('lightbox')
+      this.image = photos.querySelectorAll('a')
+      this.media = mediaFromFactory
+      this.currentIndex
+
+    }
+
+    showAria() {
+      document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
+        element.setAttribute('aria-hidden', 'true')
+      })
+      this.lightbox.setAttribute('aria-hidden', 'false')
+    }
+
+    hideAria() {
+      document.querySelectorAll('[aria-hidden="true"]').forEach(element => {
+        element.setAttribute('aria-hidden', 'false')
+      })
+      this.lightbox.setAttribute('aria-hidden', 'true')
+    }
+
+    open(e) {
+      const media = this.media.find(m => m.id === e.target.dataset.mediaid)
+      if(!media) return
+      this.lightbox.classList.add('active')
+      this.lightboxContainer.innerHTML = media.getMediaAsHTML(newPhotographerName.join(' '))
+      this.currentIndex = this.media.findIndex(m => m.id === e.target.dataset.mediaid)
+      this.showAria()
+    }
+
+    close() {
+      this.lightbox.classList.remove('active')
+      this.hideAria()
+    }
+
+    prev(e) {
+      e.preventDefault()
+      if (this.currentIndex == 0) {
+        this.currentIndex == this.media.length - 1
+      } else {
+        this.currentIndex--
+      }
+      this.lightboxContainer.innerHTML = this.media[this.currentIndex].getMediaAsHTML(newPhotographerName.join(' ')) 
+    }
+
+    next(e) {
+      e.preventDefault()
+      if (this.currentIndex === this.media.length - 1) {
+        this.currentIndex = 0
+      } else {
+        this.currentIndex++
+      }
+      this.lightboxContainer.innerHTML = this.media[this.currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
+
+    }
+
+    onKeyUp (e) {
+      if (e.key === 'Escape') {
+        this.close(e)
+      } else if (e.key === 'Enter') {
+        this.open()
+      }
+    }
+  }
+  const newLightbox = new Lightbox(lightboxContainer)*/
+  lightboxClose.addEventListener
+
   document.getElementById('content').ariaLabel = `Contactez-moi ${photographer.name}`
 
+  ////////////////////////////////////
+  ////////////////FORM////////////////
+  ////////////////////////////////////
+
+  const modal = document.getElementById('modal')
+  const myForm = document.getElementById('form')
+  const formName = document.getElementById('formName')
+  const confirmMessage = document.getElementById('confirmedMessage')
+  const contactBtn = document.querySelector('.contact-btn')
+  const closeModalBtn = document.querySelector('.close-modal')
+  const closeBtn = document.querySelector('.close-btn')
+  const first = document.getElementById('first')
+  const last = document.getElementById('last')
+  const eMail = document.getElementById('email')
+  const textArea = document.getElementById('textarea')
+  
+  const form = new FormData(myForm)
+  console.log(new FormData())
 })
+
+export function isEnterPressed(enter) {
+  let keyCode = enter.key
+  if (keyCode === 'Enter') {
+    return keyCode
+  }
+}

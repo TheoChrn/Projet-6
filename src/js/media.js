@@ -45,7 +45,7 @@ class Image extends Media {
   createContent(name, title) {
     return `
     <article class="photo">
-    <a href="#" tab-index="-1">
+    <a href="#" data-mediaid="${this.id}">
       <div class="photo__container">
         <figure class="photo__container__picture">
           <img tab-index="0" data-mediaid="${this.id}" src="./src/public/assets/images/${name}/${this.src}" class="src thumb photo__container__thumb" alt="${title}">
@@ -56,9 +56,9 @@ class Image extends Media {
       <h2 class="name photo__description__name">${title}</h2>
       <div class="photo__description__infos">
         <span class="price photo__description__price">${this.price}€</span>
-        <div class="photo__description__like" data-mediaid="${this.id}">
+        <div class="photo__description__like"">
           <span id="count_${this.id}" class="number photo__description__like__number">${this.likes}</span>
-          <i class="heart fas fa-heart "></i>
+          <button data-mediaid="${this.id}" class="heart count-heart"></button>
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ class Video extends Media {
   createContent(name, title) {
     return`
     <article class="photo">
-    <a href="#" tab-index="-1">
+    <a href="#" data-mediaid="${this.id}">
       <div class="photo__container">
         <figure class="photo__container__picture">
           <video data-mediaid="${this.id}" class="src thumb photo__container__thumb" aria-label="${title}" title="${title}">
@@ -90,9 +90,9 @@ class Video extends Media {
       <h2 class="name photo__description__name">${title}</h2>
       <div class="photo__description__infos">
         <span class="price photo__description__price">${this.price}€</span>
-        <div class="photo__description__like" data-mediaid="${this.id}">
+        <div class="photo__description__like">
         <span id="count_${this.id}"  class="number photo__description__like__number">${this.likes}</span>
-          <i class="heart fas fa-heart"></i>
+        <button data-mediaid="${this.id}" class="heart count-heart"></button>
         </div>
       </div>
     </div>
