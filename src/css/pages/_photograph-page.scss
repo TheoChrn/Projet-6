@@ -1,0 +1,83 @@
+#photos{
+  
+  .photo{
+
+    & a{
+      
+    }
+
+    &__container{
+      width: 100%;
+
+      &__picture{
+        height: 190px;
+      }
+    }
+
+    &__description{
+      margin: 10px 5px;
+      display: flex;
+      justify-content: space-between;
+
+      &__name{
+        color: $firstPrimaryColor;
+        font-size: 14px;
+      }
+
+      &__infos{
+        display: flex;
+      }
+
+      &__like{
+        display: flex;
+        margin-left: 15px;
+      }
+
+      &__price, &__like__number{
+        margin: auto;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1024px){
+  #photos{
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    grid-column-gap: 5%;
+    grid-row-gap: 30px;
+
+    .photo{
+
+      &__description{
+        .heart {
+          cursor: pointer;
+        }
+
+        &__name, &__price, &__like, &__like__number, .heart{
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1440px){
+  #photos{
+    .photo{
+      &__container{
+        &__picture{
+          height: 300px;
+        }
+      }
+
+      &__description{
+        &__name, &__price, &__like, &__like__number, .heart{
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

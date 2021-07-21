@@ -1,0 +1,52 @@
+/*Buttons*/
+.btn{
+  border: none;
+  background-color: $firstPrimaryColor;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  height: 70px;
+  width: 170px;
+  padding: 25px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-btn{
+  height: 35px;
+  width: inherit;
+  padding: 5px 20px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  position: fixed;
+  bottom: 30px;
+
+  &:hover{
+    background-color: $secondPrimaryColor;
+    color: black;
+  }
+}
+
+.submit-btn, .close-btn{
+  height: 35px;
+  display: block;
+  margin: 25px auto auto auto;
+  padding: 5px 50px;
+  
+  &:hover{
+    background-color: lighten($color: $firstPrimaryColor, $amount: 10);
+  }
+}
+
+.close-btn{
+  align-self: flex-end;
+  margin: 0 auto 50px auto;
+}
+
+@media all and (min-width: 768px){
+  .submit-btn{
+    margin: 25px auto auto 0;
+    height: 70px;
+  }
+}

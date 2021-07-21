@@ -1,0 +1,111 @@
+.sortBy{
+  display: none;
+
+  & > span {
+    align-self: flex-start;
+    margin-top: 1em;
+    margin-right: .5em;
+  }
+}
+
+.dropdown-el {
+  width: 175px;
+  position: relative;
+  display: inline-block;
+  overflow:hidden;
+  top: 0;  
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  color: white;
+  border: .06em solid transparent;
+  border-radius: 5px;
+  background-color: $firstPrimaryColor;
+  padding: 10px;
+
+  .dropdown-selection{
+    display: none;
+    height: 100%;
+  }
+
+  [role=listitem] {
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+    display:block;
+    height: 2em;
+    line-height: 2em;
+    cursor: pointer;
+    position: relative;
+    padding-left: 0.5em;
+  }
+  
+  &::before {
+    content:"";
+    position: absolute;
+    right: 1.5em;
+    top: 1.85em;
+    border: .5em solid $firstPrimaryColor;
+    border-color: white transparent transparent transparent;
+  }
+  
+  &::after {
+    content:"";
+    position: absolute;
+    right: 1.5em;
+    top: 1.6em;
+    border: .5em solid $firstPrimaryColor;
+    border-color: $firstPrimaryColor transparent transparent transparent;
+  }
+  
+  &.expanded {
+    border: .06em solid $firstPrimaryColor;
+    background: $firstPrimaryColor;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
+    max-height: 15em;
+
+    .dropdown-selection{
+      display: block;
+
+      [role=listitem]{
+        padding-top: 5px;
+        padding-bottom: 5px;
+
+        &:nth-child(1) {
+          padding-top: 0;
+        }
+
+        &:nth-child(2){
+          border-top: .06em solid #d9d9d9;
+          border-bottom: .06em solid #d9d9d9;
+        }
+
+        &:nth-child(3){
+          padding-bottom: 0;
+        } 
+      }
+    }
+
+    .dropdown-selected{
+      display: none;
+    }
+    
+    &::before {
+      transform: rotate(-180deg);
+      top: 1.1em;
+    }
+
+    &::after {
+      transform: rotate(-180deg);
+      top: 1.35em;
+    }
+  }
+}
+
+@media all and (min-width: 1024px){
+  .sortBy{
+    display: flex;
+    margin: 1.5em 0;
+  }
+}

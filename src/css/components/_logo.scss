@@ -1,0 +1,18 @@
+.logo{
+  //font-size: 45px;
+  width: 150px;
+  height: auto;
+}
+
+@media all and (min-width: 768px){
+  .logo{
+    width: 200px;
+  }
+}
+
+
+@media all and (min-width: 1023px){
+  .logo{ 
+    grid-column: 1 / span 3;
+  }
+}

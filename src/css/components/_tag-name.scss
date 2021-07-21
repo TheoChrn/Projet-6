@@ -1,0 +1,15 @@
+.tag-name{
+  font-weight: 500;
+  color: $firstPrimaryColor;
+  border: 0.5px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 11px;
+  margin: 3px;
+  text-align: center;
+  padding: 1px 5px;
+
+  &:hover{
+    background-color: $firstPrimaryColor;
+    color: white;
+  }
+}

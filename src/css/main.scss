@@ -1,13 +1,32 @@
 /* UTILS */
-
+@import './utils/variables';
+@import './utils/mixins';
 
 /* BASE */
-
+@import './base/base';
 
 /* COMPONENTS */
-
+@import './components/tag-name';
+@import './components/logo';
+@import './components/button';
+@import './components/description';
+@import './components/name';
+@import './components/location';
+@import './components/user';
+@import './components/input';
+@import './components/photo';
+@import './components/price';
+@import './components/like';
+@import './components/thumb';
+@import './components/form';
+@import './components/cross';
+@import './components/dropdown';
+@import './components/photographCard';
+@import './components/lightbox';
 
 /* LAYOUT */
-
+@import './layout/header';
 
 /* PAGES */
+@import './pages/home';
+@import './pages/photograph-page';
