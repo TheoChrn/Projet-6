@@ -14,7 +14,7 @@ getData().then(res => {
   const media = data.media.filter(m => `${m.photographerId}` === id)
 
   /////////////////////// LIGHTBOX ///////////////////////
-  const lightbox = document.getElementById('lightbox')
+  const lightboxElement = document.getElementById('lightbox')
   const lightboxContainer = document.querySelector('.lightbox__container')
   const lightboxClose = document.querySelector('.lightbox__close')
   const lightboxPrev = document.querySelector('.lightbox__prev')
@@ -136,8 +136,7 @@ getData().then(res => {
     mediaFromFactory.sort((a, b) => (b.likes - a.likes))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    openLightBox()
-    lockFocus(lightbox)
+    lockFocus(lightboxElement)
   }
 
   const popularity = document.getElementById('sort-popularity')
@@ -159,8 +158,7 @@ getData().then(res => {
     mediaFromFactory.sort((a, b) => (new Date(b.date) - new Date(a.date)))
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    openLightBox()
-    lockFocus(lightbox)
+    lockFocus(lightboxElement)
   }
 
   const date = document.getElementById('sort-date')
@@ -188,8 +186,7 @@ getData().then(res => {
     })
     photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
     countLikes()
-    openLightBox()
-    lockFocus(lightbox)
+    lockFocus(lightboxElement)
   }
 
   title.addEventListener('click', () => {
@@ -212,12 +209,12 @@ getData().then(res => {
     dropDownEl.classList.toggle('expanded')
   })
 
-  let currentIndex
+  let mediaLink = photos.querySelectorAll('a')
 
-  const injecteInsideLightbox = (e) => {
+  /*const injecteInsideLightbox = (e) => {
 
     // Cherche si le dataset de la cible est égal à l'id du media
-    const media = mediaFromFactory.find(m => m.id === e.target.dataset.mediaid)
+    const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
 
     // Si non annule
     if (!media) return;
@@ -230,33 +227,35 @@ getData().then(res => {
 
     // Cherche et stock l'index du média
     currentIndex = mediaFromFactory.findIndex(m => m.id == e.target.dataset.mediaid)
-  }
+  }*/
 
   const showLightboxAria = () => {
     document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
       element.setAttribute('aria-hidden', 'true')
     })
-    lightbox.setAttribute('aria-hidden', 'false')
+    lightboxElement.setAttribute('aria-hidden', 'false')
   }
 
   const hideLightboxAria = () => {
     document.querySelectorAll('[aria-hidden="true"]').forEach(element => {
       element.setAttribute('aria-hidden', 'false')
     })
-    lightbox.setAttribute('aria-hidden', 'true')
+    lightboxElement.setAttribute('aria-hidden', 'true')
   }
 
-  const openLightBox = () => {
+  /*const openLightBox = () => {
 
     // Pour chaque élément de lightBoxMedia
-    document.querySelectorAll('.src').forEach(element => {
+    mediaLink.forEach(element => {
 
       // Au click
       element.addEventListener('click', e => {
+        console.log(e)
         lockFocus(lightbox)
         lightboxClose.focus()
         showLightboxAria()
         injecteInsideLightbox(e)
+        element.blur()
       })
     })
   }
@@ -308,114 +307,90 @@ getData().then(res => {
 
     // Injecte la balise du média avec le nouvel index dans le container de la lightbox
     lightboxContainer.innerHTML = mediaFromFactory[currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
-  })
+  })*/
+  document.getElementById('content').ariaLabel = `Contactez-moi ${photographer.name}`
 
-  const a = photos.querySelectorAll('a')
-  a.forEach(element => {
-    element.addEventListener('keydown', e => {
-      if (!isEnterPressed(e)) return
-      else {
-        lockFocus(lightbox)
-        lightboxClose.focus()
-        showLightboxAria()
-        injecteInsideLightbox(e)
+  class Lightbox {
+    constructor(media) {
+      this.media = media
+      this.currentIndex = 0
+      this.currentMedia = null
+    }
+
+    next(e) {
+      e.preventDefault()
+      if (this.currentIndex == this.media.length - 1) {
+        this.currentIndex = 0
+      } else {
+        this.currentIndex++
       }
-    })
-  })
-
-  /*class Lightbox{
-    constructor(lightboxContainer) {
-      this.lightboxContainer = lightboxContainer
-      this.lightboxClose = lightboxClose
-      this.lightboxPrev = lightboxPrev
-      this.lightboxNext = lightboxNext
-      this.lightbox = document.getElementById('lightbox')
-      this.image = photos.querySelectorAll('a')
-      this.media = mediaFromFactory
-      this.currentIndex
-
-    }
-
-    showAria() {
-      document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
-        element.setAttribute('aria-hidden', 'true')
-      })
-      this.lightbox.setAttribute('aria-hidden', 'false')
-    }
-
-    hideAria() {
-      document.querySelectorAll('[aria-hidden="true"]').forEach(element => {
-        element.setAttribute('aria-hidden', 'false')
-      })
-      this.lightbox.setAttribute('aria-hidden', 'true')
-    }
-
-    open(e) {
-      const media = this.media.find(m => m.id === e.target.dataset.mediaid)
-      if(!media) return
-      this.lightbox.classList.add('active')
-      this.lightboxContainer.innerHTML = media.getMediaAsHTML(newPhotographerName.join(' '))
-      this.currentIndex = this.media.findIndex(m => m.id === e.target.dataset.mediaid)
-      this.showAria()
-    }
-
-    close() {
-      this.lightbox.classList.remove('active')
-      this.hideAria()
+      this.currentMedia = this.media[this.currentIndex]
+      this.updateDom()
     }
 
     prev(e) {
       e.preventDefault()
       if (this.currentIndex == 0) {
-        this.currentIndex == this.media.length - 1
+        this.currentIndex = this.media.length - 1
       } else {
         this.currentIndex--
       }
-      this.lightboxContainer.innerHTML = this.media[this.currentIndex].getMediaAsHTML(newPhotographerName.join(' ')) 
+      this.currentMedia = this.media[this.currentIndex]
+      this.updateDom()
     }
 
-    next(e) {
-      e.preventDefault()
-      if (this.currentIndex === this.media.length - 1) {
-        this.currentIndex = 0
-      } else {
-        this.currentIndex++
-      }
-      this.lightboxContainer.innerHTML = this.media[this.currentIndex].getMediaAsHTML(newPhotographerName.join(' '))
-
+    updateDom() {
+      lightboxContainer.innerHTML = this.currentMedia.getMediaAsHTML(newPhotographerName.join(' '))
     }
 
-    onKeyUp (e) {
-      if (e.key === 'Escape') {
-        this.close(e)
-      } else if (e.key === 'Enter') {
-        this.open()
-      }
+    open(dataset) {
+      lightboxElement.classList.add('active')
+      this.currentIndex = this.media.findIndex(m => m.id == dataset)
+      this.currentMedia = this.media.find(m => m.id == dataset)
+      console.log(this.currentMedia)
+      this.updateDom()
+    }
+
+    close() {
+      lightboxElement.classList.remove('active')
     }
   }
-  const newLightbox = new Lightbox(lightboxContainer)*/
-  lightboxClose.addEventListener
+  let lightbox = new Lightbox(mediaFromFactory)
 
-  document.getElementById('content').ariaLabel = `Contactez-moi ${photographer.name}`
+  const openLightbox = () => {
+    mediaLink.forEach(element => {
+      element.addEventListener('click', (e) => {
+        lightbox.open(e.target.dataset.mediaid)
+        lockFocus(lightboxElement)
+        lightboxClose.focus()
+        showLightboxAria()
+        element.blur()
+      })
+    })
+  }
+  openLightbox()
 
-  ////////////////////////////////////
-  ////////////////FORM////////////////
-  ////////////////////////////////////
+  lightboxClose.addEventListener('click', () => {
+    lightbox.close()
+    hideLightboxAria()
+  })
 
-  const modal = document.getElementById('modal')
-  const myForm = document.getElementById('form')
-  const formName = document.getElementById('formName')
-  const confirmMessage = document.getElementById('confirmedMessage')
-  const contactBtn = document.querySelector('.contact-btn')
-  const closeModalBtn = document.querySelector('.close-modal')
-  const closeBtn = document.querySelector('.close-btn')
-  const first = document.getElementById('first')
-  const last = document.getElementById('last')
-  const eMail = document.getElementById('email')
-  const textArea = document.getElementById('textarea')
-  
-  const form = new FormData(myForm)
-  console.log(new FormData())
+  lightboxPrev.addEventListener('click', (e) => {
+    lightbox.prev(e)
+  })
+
+  lightboxNext.addEventListener('click', (e) => {
+    lightbox.next(e)
+  })
+
+  mediaLink.forEach(element => {
+    element.addEventListener('keydown', e => {
+      if (!isEnterPressed(e)) return
+      else {
+        openLightbox(e)
+      }
+    })
+  })
 })
 
 export function isEnterPressed(enter) {
@@ -424,3 +399,6 @@ export function isEnterPressed(enter) {
     return keyCode
   }
 }
+
+/* REPARER LE CODE */
+/* AJOUTER LE BLUR SUR LE A POUR ENLEVER LE FOCUS */

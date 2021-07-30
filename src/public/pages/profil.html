@@ -15,7 +15,7 @@
   <div class="container container__photographer">
     <header id="header" aria-hidden="false">
       <figure id="logo">
-        <a href="./">
+        <a href="./" id="homeRedirection">
           <img src="../assets/images/logo.png" alt="Fisheye Home page" class="logo">
         </a>
       </figure>
@@ -50,7 +50,7 @@
           <div class="dropdown-selected" role="listbox">
             <span id="sort-x" role="listitem" aria-selected="true">Popularité</span>
           </div>
-          <ul tabindex="-1" class="dropdown-selection"  role="listbox">
+          <ul tabindex="-1" class="dropdown-selection" role="listbox">
             <li tabindex="0" id="sort-popularity" role="listitem" aria-selected="false">Popularité</li>
             <li tabindex="0" id="sort-date" role="listitem" aria-selected="false">Date</li>
             <li tabindex="0" id="sort-title" role="listitem" aria-selected="false">Titre</li>
@@ -65,30 +65,30 @@
         <div id="modal__body" class="modal__body">
           <div id="confirmedMessage" class="modal__body__submitMessage">
             <p>Votre message a bien été envoyé !</p>
-            <button class="btn close-btn">Fermer</button>
+            <button class="btn close-modal close-btn">Fermer</button>
           </div>
           <form id="form" name="form" class="form">
-            <div class="form__data">
+            <div data-formData class="form__data">
               <label aria-labelledby="first" for="first">Prénom</label>
               <input type="text" aria-label="Prénom" name="first" id="first" class="input form__data__input" aria-required="true">
               <small class="form__data__error"></small>
             </div>
-            <div class="form__data">
+            <div data-formData class="form__data">
               <label aria-labelledby="last" for="last">Nom</label>
               <input type="text" aria-label="Nom" name="last" id="last" class="input form__data__input" aria-required="true">
               <small class="form__data__error"></small>
             </div>
-            <div class="form__data">
+            <div data-formData class="form__data">
               <label aria-labelledby="email" for="email">Email</label>
-              <input type="email" aria-labelledby="eMail" name="email" id="email" class="input form__data__input" aria-required="true">
+              <input type="email" aria-label="eMail" name="email" id="email" class="input form__data__input" aria-required="true">
               <small class="form__data__error"></small>
             </div>
-            <div class="form__data">
-              <label for="textarea">Votre message</label>
-              <textarea aria-labelledby="Votre Message" maxlength="50" name="textarea" id="textarea" class="input form__data__input"aria-required="true"></textarea>
+            <div data-formData class="form__data">
+              <label aria-labelledby="Votre Message" for="textarea">Votre message</label>
+              <textarea aria-label="Votre Message" maxlength="50" name="textarea" id="textarea" class="input form__data__input"aria-required="true"></textarea>
               <small class="form__data__error"></small>
             </div>
-            <input type="submit" class="btn submit-btn" aria-label="envoyer" value="Envoyer">
+            <input type="submit" id="submitBtn" class="btn submit-btn" aria-label="envoyer" value="Envoyer">
           </form>
         </div>
       </div>
@@ -97,9 +97,7 @@
       <button aria-label="Fermer la boîte de dialogue" class="lightbox__close"></button>
       <button aria-label="Image Précédente" class="lightbox__prev"></button>
       <button aria-label="Image Suivante" class="lightbox__next"></button>
-      <div aria-label="image closeup view" class="lightbox__container">
-        <div class="lightbox__loader"></div>
-      </div>
+      <div aria-label="image closeup view" class="lightbox__container"></div>
     </div>
   </div>
 </body>

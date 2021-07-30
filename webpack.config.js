@@ -41,7 +41,7 @@ module.exports = {
     entry: {
         bundle: ['./src/css/main.scss', './src/js/index.js'],
         index: ['./src/css/main.scss', './src/js/home.js'],
-        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js']
+        photographer: ['./src/css/main.scss', './src/js/photographer.js','./src/js/validateform.js', './src/js/media.js']
     },
     output: {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',

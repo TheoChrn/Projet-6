@@ -1,179 +1,170 @@
-// DOM
-const modal = document.querySelector('#modal')
-const form = document.querySelector('#form')
-const formName = document.querySelector('#formName')
-const confirmMessage = document.querySelector('#confirmedMessage')
+const lockFocus = (container) => {
+  const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  console.log(focusableElements)
+  const firstFocusableElement = container.querySelectorAll(focusableElements)[0]
+  const focusableContent = container.querySelectorAll(focusableElements)
+  const lastFocusableElement = focusableContent[focusableContent.length - 1]
+
+  document.addEventListener('keydown', function (e) {
+    let isTabPressed = e.key === 'Tab' || e.key === 9;
+
+    if (!isTabPressed) {
+      return;
+    }
+
+    if (e.shiftKey) { // if shift key pressed for shift + tab combination
+      if (document.activeElement === firstFocusableElement) {
+        lastFocusableElement.focus() // add focus for the last focusable element
+        e.preventDefault()
+      }
+    } else { // if tab key is pressed
+      if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+        firstFocusableElement.focus() // add focus for the first focusable element
+        e.preventDefault()
+      }
+    }
+  })
+}
+
+const modal = document.getElementById('modal')
+const myForm = document.getElementById('form')
+const formName = document.getElementById('formName')
+const confirmMessage = document.getElementById('confirmedMessage')
 const contactBtn = document.querySelector('.contact-btn')
-const closeModalBtn = document.querySelector('.close-modal')
-const closeBtn = document.querySelector('.close-btn')
+const closeModalBtn = document.querySelectorAll('.close-modal')
 const first = document.getElementById('first')
 const last = document.getElementById('last')
 const eMail = document.getElementById('email')
-const textarea = document.getElementById('textarea')
-const main = document.querySelector('main')
+const textArea = document.getElementById('textarea')
 
 // Open modal
-contactBtn.addEventListener('click', openModal)
-
-function openModal () {
+const openModal = () => {
+  document.activeElement.blur()
   modal.style.display = 'block'
-  document.querySelector('main').setAttribute('aria-hidden' , 'true')
-  contactBtn.focus()
-
+  modal.setAttribute('aria-hidden', 'true')
+  document.querySelector('main').setAttribute('aria-hidden', 'true')
+  document.querySelector('#closeModal').focus()
+  lockFocus(modal)
 }
 
-document.addEventListener('keydown', e => {
-  let keyCode = e.keyCode
-  if (keyCode === 27){
-    closeModal()
-  }
+contactBtn.addEventListener('click', () => {
+  openModal()
 })
 
-// Close modal event
-closeBtn.addEventListener('click', closeModal)
-closeModalBtn.addEventListener('click', closeModal)
-
-// Close modal form
-function closeModal () {
+// Close Modal
+const closeModal = () => {
   modal.style.display = 'none'
   form.style.display = 'block'
   confirmMessage.style.display = 'none'
   formName.style.display = 'block'
-  document.querySelector('main').setAttribute('aria-hidden' , 'false')
+  modal.setAttribute('aria-hidden', 'false')
+  document.querySelector('main').setAttribute('aria-hidden', 'false')
 }
 
-form.addEventListener('submit', (event) => {
-  isValidateConfirmed()
-  handleForm(event)
+closeModalBtn.forEach(button => {
+  button.addEventListener('click', () => {
+    closeModal()
+  })
 })
 
-// Show SubmitMessage
-function isValidateConfirmed () {
-  if (validate() === true) {
-    form.style.display = 'none'
-    confirmMessage.style.display = 'flex'
-    formName.style.display = 'none'
-    clear()
+
+// Onsubmit form validation
+myForm.addEventListener('submit', e => {
+  const formData = new FormData(myForm);
+  e.preventDefault()
+  const formValidation = () => {
+
+    const setSuccessFor = (input, message) => {
+      const formControl = input.parentElement
+      const small = formControl.querySelector('small')
+
+      // remove error message inside small
+      small.innerText = message
+      // remove error class
+      formControl.className = 'form__data'
+
+    }
+
+    const setErrorFor = (input, message) => {
+      const formControl = input.parentElement
+      const small = formControl.querySelector('small')
+
+      // add error message inside small
+      small.innerText = message
+      // add error class
+      formControl.className = 'form__data error'
+    }
+
+    const isEmail = (eMail) => {
+      const regex = (/[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]{2,5}/)
+      return regex.test(eMail)
+    }
+
+    const isFirstValid = (first) => {
+      const firstValue = formData.get('first')
+      const result = (firstValue !== '')
+      if (!result) {
+        setErrorFor(first, 'Veuillez renseigner votre prénom')
+        return false
+      } else {
+        setSuccessFor(first, '')
+      }
+      return true
+    }
+
+    const isLastValid = (last) => {
+      const lastValue = formData.get('last')
+      const result = (lastValue !== '')
+      if (!result) {
+        setErrorFor(last, 'Veuillez renseigner votre nom')
+        return false
+      } else {
+        setSuccessFor(last, '')
+      }
+      return true
+    }
+
+    const isEmailValid = (email) => {
+      const eMailValue = formData.get('email')
+      const result = (eMailValue !== '')
+      if (!result || !isEmail(eMailValue)) {
+        setErrorFor(email, 'Veuillez renseigner un email valide')
+        return false
+      } else {
+        setSuccessFor(email, '')
+      }
+      return true
+    }
+
+    const isTextAreaValid = (textarea) => {
+      const textAreaValue = formData.get('textarea')
+      const result = (textAreaValue !== '')
+      if (!result) {
+        setErrorFor(textarea, 'Veuillez renseigner le champs')
+        return false
+      } else {
+        setSuccessFor(textarea, '')
+      }
+      return true
+    }
+
+    const clear = () => {
+      first.value = ''
+      last.value = ''
+      eMail.value = ''
+      textArea.value = ''
+    }
+
+    const isValid = () => {
+      return isFirstValid(first) && isLastValid(last) && isEmailValid(eMail) && isTextAreaValid(textArea)
+    }
+
+    if (isValid() === true) {
+      form.style.display = 'none'
+      confirmMessage.style.display = 'flex'
+      formName.style.display = 'none'
+      clear()
+    }
   }
-}
-
-// Clear Inputs
-function clear () {
-  first.value = ''
-  last.value = ''
-  eMail.value = ''
-  textarea.value = ''
-}
-
-// Block page refresh
-function handleForm (event) {
-  event.preventDefault()
-}
-
-// regex
-function isEmail (eMail) {
-  const regex = (/[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]{2,5}/)
-  return regex.test(eMail)
-}
-
-// Function setErrorFor
-function setErrorFor (input, message) {
-  const formControl = input.parentElement
-  const small = formControl.querySelector('small')
-
-  // add error message inside small
-  small.innerText = message
-  // add error class
-  formControl.className = 'form__data error'
-}
-
-// Function setSuccessFor
-function setSuccessFor (input, message) {
-  const formControl = input.parentElement
-  const small = formControl.querySelector('small')
-
-  // remove error message inside small
-  small.innerText = message
-  // remove error class
-  formControl.className = 'form__data'
-}
-
-// Function isValid
-/**
- * Vérifier que le prénom donné est valide
- *
- * @param  {HTMLElement} first
- * @return {boolean} prénom valide ou non
- */
-function isFirstValid (first) {
-  const firstNameValueTrim = first.value.trim()
-  const result = (firstNameValueTrim !== '')
-  if (!result) {
-    setErrorFor(first, 'Veuillez renseigner votre prénom')
-    return false
-  } else {
-    setSuccessFor(first, '')
-  }
-  return true
-}
-
-/**
- * Vérifier que le nom donné est valide
- *
- * @param  {HTMLElement} last
- * @return {boolean} nom valide ou non
- */
-function isLastValid (last) {
-  const lastNameValueTrim = last.value.trim()
-  const result = (lastNameValueTrim !== '')
-  if (!result) {
-    setErrorFor(last, 'Veuillez renseigner votre nom')
-    return false
-  } else {
-    setSuccessFor(last, '')
-  }
-  return true
-}
-
-/**
- * Vérifier que l'email donné est valide et conforme au regex
- *
- * @param  {HTMLElement} eMail
- * @return {boolean} email valide ou non
- */
-function isEmailValid (eMail) {
-  const eMailValueTrim = eMail.value.trim()
-  const result = (eMailValueTrim !== '')
-  if (!result || !isEmail(eMailValueTrim)) {
-    setErrorFor(eMail, 'Veuillez renseigner un email valide')
-    return false
-  } else {
-    setSuccessFor(eMail, '')
-  }
-  return true
-}
-
-/**
-* Vérifier que l'email donné est valide
-*
-* @param  {HTMLElement} textarea
-* @return {boolean} nom valide ou non
-*/
-function isTextAreaValid (textarea) {
-  const textareaValueTrim = textarea.value.trim()
-  const result = (textareaValueTrim !== '')
-  if (!result) {
-    setErrorFor(textarea, 'Veuillez renseigner le champs')
-    return false
-  } else {
-    setSuccessFor(textarea, '')
-  }
-  return true
-}
-
-// Retourner toutes les fonctions de validation
-function validate () {
-  // return every CheckFunction
-  return isFirstValid(first) && isLastValid(last) && isEmailValid(eMail) &&
-    isTextAreaValid(textarea)
-}
+  formValidation()
+})
