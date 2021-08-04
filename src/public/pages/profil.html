@@ -34,7 +34,7 @@
           <p id="profileTagLine" class="description photographer__container__description photographer__container__description--page"></p>
           <ul id="profileTagList" class="photographer__container__hashtags photographer__container__hashtags--page">
           </ul>
-          <button id="contact-btn" class="btn contact-btn" role="button" aria-label="Contactez-moi">Contactez-moi</button>
+          <button id="contact-btn" class="btn contact-btn" aria-label="Contactez-moi">Contactez-moi</button>
           <aside class="photographer__informations">
             <div class="photographer__informations__likes">
               <span id = "likeCounter" class="number photographer__informations__likes__number" aria-label="likes"></span>
@@ -48,12 +48,12 @@
         <span>Trier par</span>
         <button tabindex="0" class="dropdown-el" id="dropdown-trigger" role="button" aria-haspopup="listbox">
           <div class="dropdown-selected" role="listbox">
-            <span id="sort-x" role="listitem" aria-selected="true">Popularité</span>
+            <span id="sort-x" role="listitem">Popularité</span>
           </div>
           <ul tabindex="-1" class="dropdown-selection" role="listbox">
-            <li tabindex="0" id="sort-popularity" role="listitem" aria-selected="false">Popularité</li>
-            <li tabindex="0" id="sort-date" role="listitem" aria-selected="false">Date</li>
-            <li tabindex="0" id="sort-title" role="listitem" aria-selected="false">Titre</li>
+            <li tabindex="0" id="sort-popularity" role="listitem">Popularité</li>
+            <li tabindex="0" id="sort-date" role="listitem">Date</li>
+            <li tabindex="0" id="sort-title" role="listitem">Titre</li>
           </ul>
         </button>
       </div>
@@ -64,8 +64,8 @@
         <button id="closeModal" class="cross close-modal" role="button" tab-index="-1" aria-label="Fermer le formulaire de contact"></button>
         <div id="modal__body" class="modal__body">
           <div id="confirmedMessage" class="modal__body__submitMessage">
-            <p>Votre message a bien été envoyé !</p>
-            <button class="btn close-modal close-btn">Fermer</button>
+            <p aria-label="Contactez-moi">Votre message a bien été envoyé !</p>
+            <button aria-label="Fermer" class="btn close-modal close-btn">Fermer</button>
           </div>
           <form id="form" name="form" class="form">
             <div data-formData class="form__data">
@@ -84,11 +84,11 @@
               <small class="form__data__error"></small>
             </div>
             <div data-formData class="form__data">
-              <label aria-labelledby="Votre Message" for="textarea">Votre message</label>
+              <label aria-labelledby="textarea" for="textarea">Votre message</label>
               <textarea aria-label="Votre Message" maxlength="50" name="textarea" id="textarea" class="input form__data__input"aria-required="true"></textarea>
               <small class="form__data__error"></small>
             </div>
-            <input type="submit" id="submitBtn" class="btn submit-btn" aria-label="envoyer" value="Envoyer">
+            <input type="submit" id="submitBtn" class="btn submit-btn" aria-label="Envoyer" value="Envoyer">
           </form>
         </div>
       </div>

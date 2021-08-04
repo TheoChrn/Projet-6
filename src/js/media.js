@@ -1,5 +1,5 @@
 class Media {
-  constructor(id, photographerId, tags, likes, date, price, src) {
+  constructor (id, photographerId, tags, likes, date, price, src) {
     this.id = id
     this.photographerId = photographerId
     this.tags = tags
@@ -10,12 +10,11 @@ class Media {
     this.name = this.clearMediaName()
   }
 
-  getMediaAsHTML() { }
+  getMediaAsHTML () { }
 
-  createContent() { }
+  createContent () { }
 
-  clearMediaName() {
-
+  clearMediaName () {
     // Stock le chemin du média
     let name = this.src
 
@@ -32,17 +31,17 @@ class Media {
     name = name.join(' ')
 
     // Renvois un objet tableau contenant le nouveau nom du média
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  
-  addLike() {
+
+  addLike () {
     this.likes++
     return this.likes
   }
 }
 
 class Image extends Media {
-  createContent(name, title) {
+  createContent (name, title) {
     return `
     <article class="photo">
     <a href="#" data-mediaid="${this.id}">
@@ -58,7 +57,7 @@ class Image extends Media {
         <span class="price photo__description__price">${this.price}€</span>
         <div class="photo__description__like"">
           <span id="count_${this.id}" class="number photo__description__like__number">${this.likes}</span>
-          <button data-mediaid="${this.id}" class="heart count-heart"></button>
+          <button data-mediaid="${this.id}" class="heart count-heart" aria-label="Ajouter un like">Ajouter un like</button>
         </div>
       </div>
     </div>
@@ -66,7 +65,7 @@ class Image extends Media {
   `
   }
 
-  getMediaAsHTML(name) { 
+  getMediaAsHTML (name) {
     return `
     <img src="./src/public/assets/images/${name}/${this.src}" alt="${this.name}">
     `
@@ -74,8 +73,8 @@ class Image extends Media {
 }
 
 class Video extends Media {
-  createContent(name, title) {
-    return`
+  createContent (name, title) {
+    return `
     <article class="photo">
     <a href="#" data-mediaid="${this.id}">
       <div class="photo__container">
@@ -92,14 +91,14 @@ class Video extends Media {
         <span class="price photo__description__price">${this.price}€</span>
         <div class="photo__description__like">
         <span id="count_${this.id}"  class="number photo__description__like__number">${this.likes}</span>
-        <button data-mediaid="${this.id}" class="heart count-heart"></button>
+        <button data-mediaid="${this.id}" class="heart count-heart" aria-label="Ajouter un like">Ajouter un like</button>
         </div>
       </div>
     </div>
   </article>`
   }
 
-  getMediaAsHTML(name) { 
+  getMediaAsHTML (name) {
     return `
     <video controls>
           <source src="./src/public/assets/images/${name}/${this.src}" type="video/mp4">
@@ -108,7 +107,7 @@ class Video extends Media {
   }
 }
 
-export function mediaFactory(obj) {
+export function mediaFactory (obj) {
   if (obj.hasOwnProperty('image')) {
     return new Image(obj.id, obj.photographerId, obj.tags, obj.likes, obj.date, obj.price, obj.image)
   } else if (obj.hasOwnProperty('video')) {

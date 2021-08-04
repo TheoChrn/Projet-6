@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const options = {
     //options
 };
@@ -131,6 +132,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new ESLintPlugin({}),
         new CopyPlugin({
             patterns: [
                 {
@@ -164,7 +166,7 @@ module.exports = {
             chunks: [
                 'index'
             ]
-        })
+        }),
     ],
 };
 

@@ -13,14 +13,13 @@
 }
 
 .contact-btn{
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translate(-50%);
   height: 35px;
   width: inherit;
   padding: 5px 20px;
-  margin: auto;
-  left: 0;
-  right: 0;
-  position: fixed;
-  bottom: 30px;
 
   &:hover{
     background-color: $secondPrimaryColor;
@@ -50,3 +49,12 @@
     height: 70px;
   }
 }
+
+@media all and (min-width: 1024px){
+  .contact-btn{
+    transform: inherit;
+  }
+}
+
+
+

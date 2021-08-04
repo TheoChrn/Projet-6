@@ -1,15 +1,14 @@
 const lockFocus = (container) => {
   const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  console.log(focusableElements)
   const firstFocusableElement = container.querySelectorAll(focusableElements)[0]
   const focusableContent = container.querySelectorAll(focusableElements)
   const lastFocusableElement = focusableContent[focusableContent.length - 1]
 
   document.addEventListener('keydown', function (e) {
-    let isTabPressed = e.key === 'Tab' || e.key === 9;
+    const isTabPressed = e.key === 'Tab' || e.key === 9
 
     if (!isTabPressed) {
-      return;
+      return
     }
 
     if (e.shiftKey) { // if shift key pressed for shift + tab combination
@@ -54,7 +53,7 @@ contactBtn.addEventListener('click', () => {
 // Close Modal
 const closeModal = () => {
   modal.style.display = 'none'
-  form.style.display = 'block'
+  myForm.style.display = 'block'
   confirmMessage.style.display = 'none'
   formName.style.display = 'block'
   modal.setAttribute('aria-hidden', 'false')
@@ -67,13 +66,14 @@ closeModalBtn.forEach(button => {
   })
 })
 
-
 // Onsubmit form validation
 myForm.addEventListener('submit', e => {
-  const formData = new FormData(myForm);
+  const formData = new FormData(myForm)
   e.preventDefault()
+  for (let value of formData.values()) {
+    console.log(value)
+  }
   const formValidation = () => {
-
     const setSuccessFor = (input, message) => {
       const formControl = input.parentElement
       const small = formControl.querySelector('small')
@@ -82,7 +82,6 @@ myForm.addEventListener('submit', e => {
       small.innerText = message
       // remove error class
       formControl.className = 'form__data'
-
     }
 
     const setErrorFor = (input, message) => {
@@ -160,7 +159,10 @@ myForm.addEventListener('submit', e => {
     }
 
     if (isValid() === true) {
-      form.style.display = 'none'
+      lockFocus(confirmMessage)
+      document.activeElement.blur()
+      document.querySelector('#closeModal').focus()
+      myForm.style.display = 'none'
       confirmMessage.style.display = 'flex'
       formName.style.display = 'none'
       clear()

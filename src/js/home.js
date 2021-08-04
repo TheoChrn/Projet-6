@@ -16,18 +16,17 @@ const searchPhotographers = () => {
             const arr = []
 
             const isEnterPressed = (enter) => {
-              let keyCode = enter.key
+              const keyCode = enter.key
               if (keyCode === 'Enter') {
                 return keyCode
               }
             }
 
-            // Créer un tableau de valeurs unique 
+            // Créer un tableau de valeurs unique
             const set = new Set(data.photographers.map(p => p.tags).reduce((p, c) => [...c, ...p]))
 
             // Pour chaque élement dans set
             set.forEach(e => {
-
               // Rentre une li contenant un tag dans le tableau
               arr.push(`<a data-value="${e}" aria-label="${e}" href="#"><li class="tag-name nav-tag photographer__container__tag-name" aria-label="${e}" data-value="${e}">#${e}</li></a>`)
             })
@@ -42,7 +41,7 @@ const searchPhotographers = () => {
               <article class="photographer">
                 <a aria-label=${p.name} href="profil.html?id=${p.id}">
                     <div class="photographer__idContainer">
-                        <figure class="photographer__idContainer__picture">
+                        <figure class="photographer__idContainer__picture" aria-label="${p.name}">
                             <img src="./src/public/assets/images/Photographers_ID_Photos/${p.portrait}" class="user photographer__idContainer__user" alt="${p.name}">
                     </figure>
                     <h2 class="name photographer__idContainer__name">${p.name}</h2>   
@@ -53,8 +52,7 @@ const searchPhotographers = () => {
                     <p class="description photographer__container__description">${p.tagline}</p>
                     <small class="photographer__container__price">${p.price}€/jour</small>
                     <ul class="photographer__container__hashtags">
-                    ${p.tags.map(i => `<li class="tag-name photographer__container__tag-name">#${i}</li>`).join('')}
-                      
+                    ${p.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name" aria-label="${i}">#${i}</li></a>`).join('')}
                     </ul>
                 </div>
               </article>
@@ -78,7 +76,6 @@ const searchPhotographers = () => {
 
               // Pour chaque photographe filtré
               newPhotographers.forEach(p => {
-
                 // Injecte le contenu
                 section.innerHTML +=
                   `
@@ -96,7 +93,7 @@ const searchPhotographers = () => {
                   <p class="description photographer__container__description">${p.tagline}</p>
                   <small class="photographer__container__price">${p.price}€/jour</small>
                   <ul class="photographer__container__hashtags">
-                  ${p.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name data-value="${e}"">#${i}</li></a>`).join('')}
+                  ${p.tags.map(i => `<a href="#"><li class="tag-name photographer__container__tag-name" aria-label="${i}">#${i}</li></a>`).join('')}
                   </ul>
               </div>
               </article>
@@ -106,7 +103,6 @@ const searchPhotographers = () => {
 
             // Tant que i est inférieur au nombre de tag ajoute 1
             for (let i = 0; i < tag.length; i++) {
-
               // Au clique
               tag[i].addEventListener('click', (e) => {
                 photographersFilter(e)
@@ -119,7 +115,7 @@ const searchPhotographers = () => {
             tagA.forEach(tag => {
               tag.addEventListener('keydown', (e) => {
                 console.log(e)
-                if (!isEnterPressed(e)) return
+                if (!isEnterPressed(e));
                 else {
                   photographersFilter(e)
                 }
