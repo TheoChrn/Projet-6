@@ -70,7 +70,7 @@ closeModalBtn.forEach(button => {
 myForm.addEventListener('submit', e => {
   const formData = new FormData(myForm)
   e.preventDefault()
-  for (let value of formData.values()) {
+  for (const value of formData.values()) {
     console.log(value)
   }
   const formValidation = () => {

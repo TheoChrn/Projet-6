@@ -68,7 +68,7 @@ getData().then(res => {
   newPhotographerName.pop()
 
   // Injecte le nouveau tableau
-  photos.innerHTML = mediaFromFactory.map(m => m.createContent(newPhotographerName.join(' '), m.name)).join(' ')
+  photos.innerHTML = mediaFromFactory.map(m => m.createContent(newPhotographerName.join(' '))).join(' ')
 
   const countLikes = () => {
     const like = document.querySelectorAll('.count-heart')
@@ -78,7 +78,7 @@ getData().then(res => {
       // Au clique
       element.addEventListener('click', e => {
         // Cherche si le dataset de la cible est égal à l'id du media
-        const media = mediaFromFactory.find(m => m.id == e.target.dataset.mediaid)
+        const media = mediaFromFactory.find(m => `${m.id}` === `${e.target.dataset.mediaid}`)
         // Si non annule
         if (!media) return
 
@@ -128,7 +128,7 @@ getData().then(res => {
     sortX.innerHTML = 'Popularité'
     // Tri le tableau par ordre décroissant de likes
     mediaFromFactory.sort((a, b) => (b.likes - a.likes))
-    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '))).join(' ')
     countLikes()
     lockFocus(lightboxElement)
     photos.querySelectorAll('a').forEach(element => {
@@ -155,7 +155,7 @@ getData().then(res => {
     sortX.innerHTML = 'Date'
     // Tri le tableau du plus récent au plus vieux
     mediaFromFactory.sort((a, b) => (new Date(b.date) - new Date(a.date)))
-    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '))).join(' ')
     countLikes()
     lockFocus(lightboxElement)
     photos.querySelectorAll('a').forEach(element => {
@@ -188,7 +188,7 @@ getData().then(res => {
       if (a.name > b.name) return 1
       return 0
     })
-    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '), i.name)).join(' ')
+    photos.innerHTML = mediaFromFactory.map(i => i.createContent(newPhotographerName.join(' '))).join(' ')
     countLikes()
     lockFocus(lightboxElement)
     photos.querySelectorAll('a').forEach(element => {
@@ -217,8 +217,6 @@ getData().then(res => {
     dropDownEl.classList.toggle('expanded')
   })
 
-  let mediaLink = photos.querySelectorAll('a')
-
   const showLightboxAria = () => {
     document.querySelectorAll('[aria-hidden="false"]').forEach(element => {
       element.setAttribute('aria-hidden', 'true')
@@ -244,7 +242,7 @@ getData().then(res => {
 
     next (e) {
       e.preventDefault()
-      if (this.currentIndex == this.media.length - 1) {
+      if (this.currentIndex === this.media.length - 1) {
         this.currentIndex = 0
       } else {
         this.currentIndex++
@@ -255,7 +253,7 @@ getData().then(res => {
 
     prev (e) {
       e.preventDefault()
-      if (this.currentIndex == 0) {
+      if (this.currentIndex === 0) {
         this.currentIndex = this.media.length - 1
       } else {
         this.currentIndex--
@@ -270,9 +268,8 @@ getData().then(res => {
 
     open (dataset) {
       lightboxElement.classList.add('active')
-      this.currentIndex = this.media.findIndex(m => m.id == dataset)
-      this.currentMedia = this.media.find(m => m.id == dataset)
-
+      this.currentIndex = this.media.findIndex(m => `${m.id}` === `${dataset}`)
+      this.currentMedia = this.media.find(m => `${m.id}` === `${dataset}`)
       this.updateDom()
     }
 
@@ -289,7 +286,7 @@ getData().then(res => {
     showLightboxAria()
   }
 
-  mediaLink.forEach(element => {
+  photos.querySelectorAll('a').forEach(element => {
     element.addEventListener('click', (e) => {
       openLightbox(e)
       element.blur()
@@ -309,7 +306,7 @@ getData().then(res => {
     lightbox.next(e)
   })
 
-  mediaLink.forEach(element => {
+  photos.querySelectorAll('a').forEach(element => {
     element.addEventListener('keydown', e => {
       if (!isEnterPressed(e));
       else {
@@ -317,6 +314,8 @@ getData().then(res => {
       }
     })
   })
+
+  console.log(mediaFromFactory)
 })
 
 export function isEnterPressed (enter) {

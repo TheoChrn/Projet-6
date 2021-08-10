@@ -33,9 +33,9 @@
         margin-left: 15px;
 
         & .count-heart{
+          align-self: center;
           border: none;
           background: url('../public/assets/images/heart.svg') center center / 100% 100% no-repeat transparent;
-          margin: 5px;
           width: .7rem;
           height: .7rem;
           cursor: pointer;
