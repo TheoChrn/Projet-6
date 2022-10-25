@@ -1,0 +1,43 @@
+/*Buttons*/
+.btn{
+  outline: none;
+  border: none;
+  background-color: $firstPrimaryColor;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  width: 170px;
+  height: 70px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-btn{
+  height: 35px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  position: fixed;
+  bottom: 30px;
+
+  &:hover{
+    background-color: $secondPrimaryColor;
+    color: black;
+  }
+}
+
+.submit-btn, .close-btn{
+  display: block;
+  margin: 25px auto auto auto;
+  height: 35px;
+  
+  &:hover{
+    background-color: lighten($color: $firstPrimaryColor, $amount: 10);
+  }
+}
+
+.close-btn{
+  align-self: flex-end;
+  margin: 0 auto 50px auto;
+}

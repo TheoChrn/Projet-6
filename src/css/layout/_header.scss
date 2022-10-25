@@ -1,0 +1,13 @@
+#header{
+  margin: 40px 7%;
+  &__nav{
+    
+    &__list{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      justify-content: center;
+    }
+  }
+}

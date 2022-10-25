@@ -1,0 +1,75 @@
+/*Form*/
+.modal{
+  display: none;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: lighten($color: $secondPrimaryColor, $amount: 15);
+ 
+  .content{
+    height: 100%;
+    margin: 30px 15px;
+
+    &__name{
+      display: block;
+      color: black;
+      margin-bottom: 25px;
+      font-size: 36px;
+    }
+
+    .modal__body{
+      height: 100%;
+
+      &__submitMessage{
+        display: none;
+        height: 100%;
+        flex-direction: column;
+        text-align: center;
+
+        p{
+          color: white;
+          font-size: 36px;
+          margin: auto;
+        }
+
+      }
+      .form{
+        display: block;
+        & :nth-child(1) input, & :nth-child(2) input, & :nth-child(3) input{
+          height: 50px;
+        }
+        
+        & :nth-child(4) textarea{
+          height: 185px;
+          padding-top: 15px;
+        }
+
+        &__data{
+          margin: 7px 0;
+          display: flex;
+          flex-direction: column;
+
+          label{
+            font-size: 24px;
+            color: #312E2E;
+          }
+
+          &__input{
+            margin: 3px 0;
+          }
+
+          &__error{
+            display: none;
+          }
+
+          &.error small{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

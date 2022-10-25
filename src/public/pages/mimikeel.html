@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MimiKeel</title>
+  <script defer src="https://pro.fontawesome.com/releases/v5.15.1/js/all.js"
+        integrity="sha384-Vipr9QSlUeD/qnhkau6GBnZnUmVkbaRZ0PgB1KjvWa1UoNBKnuzg1TgbJJn2a12T"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+
+    <!--LOGO-->
+    <figure id="logo">
+      <a href="./">
+        <div class="logo">Fisheye</div>
+        <!--<img src="../public/assets/images/logo.png" alt="Fisheye Home page" class="logo">-->
+      </a>
+    </figure>
+  </header>
+
+  <!--MAIN-->
+  <main>
+
+    <!--PHOTOGRAPHER-->
+    <article class="photographer photographer--page">
+      <div class="photographer__idContainer">
+        <figure class="photographer__idContainer__picture photographer__idContainer__picture--page">
+          <!--<img src="../../public/assets/images/Photographers_ID_Photos/MimiKeel.jpg" alt="">-->
+          <div class="user photographer__idContainer__user photographer__idContainer__user--page"></div>
+        </figure>
+      </div>
+      <div class="photographer__container photographer__container--page">
+        <h1 class="name photographer__idContainer__name photographer__idContainer__name--page">Mimi Keel</h1>
+        <h2 class="location photographer__container__location">London, UK</h2>
+        <p class="description photographer__container__description photographer__container__description--page">Voir le beau dans le quotidien</p>
+        <ul class="photographer__container__hashtags photographer__container__hashtags--page">
+          <a href="#"><li class="tag-name photographer__container__tag-name">#portrait</li></a>
+          <a href="#"><li class="tag-name photographer__container__tag-name">#events</li></a>
+          <a href="#"><li class="tag-name photographer__container__tag-name">#travel</li></a>
+          <a href="#"><li class="tag-name photographer__container__tag-name">#animals</li></a>
+        </ul>
+        <button class="btn contact-btn" aria-label="Contactez-moi">Contactez-moi</button>
+      </div>
+    </article>
+
+    <!--FORM-->
+    <div id="modal" class="modal">
+      <div id="content" class="content">
+        <h2 id="formName" class="name content__name">Contactez-moi<br>Mimi Keel</h2>
+        <div class="cross close-modal">
+          <span class="cross__bar cross__bar--1"></span>
+          <span class="cross__bar cross__bar--2"></span>
+        </div>
+        <div id="modal__body" class="modal__body">
+          <div id="confirmedMessage" class="modal__body__submitMessage">
+            <p>Votre messages a bien été envoyé !</p>
+            <button class="btn close-btn">Fermer</button>
+          </div>
+          <form action="" id="form" class="form">
+            <div class="form__data">
+              <label for="first">Prénom</label>
+              <input type="text" name="first" id="first" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label for="last">Nom</label>
+              <input type="text" name="last" id="last" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label for="textarea">Votre message</label>
+              <textarea maxlength="50" name="textarea" id="textarea" class="input form__data__input"></textarea>
+              <small class="form__data__error"></small>
+            </div>
+            <input type="submit" class="btn submit-btn" value="Envoyer">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--PHOTOS-->
+    <section id="photos">
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="photo">
+        <a href="#">
+          <div class="photo__container">
+            <figure class="photo__container__picture">
+              <div class="thumb photo__container__thumb"></div>
+            </figure>
+          </div>
+        </a>
+        <div class="photo__description">
+          <h2 class="name photo__description__name">Arc-en-ciel</h2>
+          <div class="photo__description__infos">
+            <small class="price photo__description__price">70€</small>
+            <div class="photo__description__like">
+              <small class="number photo__description__like__number">12</small>
+              <i class="heart fas fa-heart"></i>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+</body>
+
+</html>
