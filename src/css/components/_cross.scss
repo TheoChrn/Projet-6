@@ -3,6 +3,7 @@
   top: 52px;
   right: 40px;
   cursor: pointer;
+ 
   
   &__bar{
     position: absolute;
@@ -11,6 +12,7 @@
     margin: 3px;
     height: 2px;
     width: 25px;
+    border-radius: 5px;
     background-color: white;
 
     &--1{
@@ -19,6 +21,18 @@
     
     &--2{
       transform: rotate(-45deg);
+    }
+  }
+}
+
+@media all and (min-width: 768px){
+  .cross{
+    top: 70px;
+    right: 80px;
+
+    &__bar{
+      width: 45px;
+      height: 5px;
     }
   }
 }
