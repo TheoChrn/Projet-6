@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const options = {
     //options
 };
@@ -41,7 +42,7 @@ module.exports = {
     entry: {
         bundle: ['./src/css/main.scss', './src/js/index.js'],
         index: ['./src/css/main.scss', './src/js/home.js'],
-        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js', './src/js/validateform.js']
+        photographer: ['./src/css/main.scss', './src/js/photographer.js','./src/js/validateform.js', './src/js/media.js']
     },
     output: {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',
@@ -74,7 +75,7 @@ module.exports = {
                 test: /\.html$/i,
                 loader: 'html-loader',
                 options: {
-                    minimize: false,
+                    minimize: true,
                 }
             },
             {
@@ -96,14 +97,14 @@ module.exports = {
                             esModule: false,
 
                         }
-                    },
-                    {
+                    },*/
+                    /*{
                         loader: 'img-loader',
                         options: {
                             enabled: !dev,
                         }
-                    },
-                    {
+                    },*/
+                    /*{
                         loader: 'file-loader',
                         options: {
                             esModule: false,
@@ -131,6 +132,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new ESLintPlugin({}),
         new CopyPlugin({
             patterns: [
                 {
@@ -164,7 +166,7 @@ module.exports = {
             chunks: [
                 'index'
             ]
-        })
+        }),
     ],
 };
 

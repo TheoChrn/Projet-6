@@ -31,6 +31,16 @@
       &__like{
         display: flex;
         margin-left: 15px;
+
+        & .count-heart{
+          align-self: center;
+          border: none;
+          background: url('../public/assets/images/heart.svg') center center / 100% 100% no-repeat transparent;
+          width: .7rem;
+          height: .7rem;
+          cursor: pointer;
+          text-indent: -9999px;
+        }
       }
 
       &__price, &__like__number{
@@ -52,11 +62,8 @@
     .photo{
 
       &__description{
-        .heart {
-          cursor: pointer;
-        }
 
-        &__name, &__price, &__like, &__like__number, .heart{
+        &__name, &__price, &__like, &__like__number{
           font-size: 15px;
         }
       }
@@ -74,8 +81,13 @@
       }
 
       &__description{
-        &__name, &__price, &__like, &__like__number, .heart{
+        &__name, &__price, &__like, &__like__number{
           font-size: 24px;
+        }
+
+        & .count-heart{
+          width: 1.3rem;
+          height: 1.3rem;
         }
       }
     }

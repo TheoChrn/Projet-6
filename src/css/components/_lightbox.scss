@@ -58,7 +58,7 @@
   & button{
     opacity: .5;
     cursor: pointer;
-    transition: opactity 300ms;
+    transition: opacity 300ms;
     text-indent: -3000px;
 
     &:hover{
@@ -102,7 +102,7 @@
   .lightbox{
     &__container{
       & img, & video{
-        height: 100vh;
+        max-height: 100vh;
       }
     }
   }
