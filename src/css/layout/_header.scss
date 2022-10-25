@@ -1,5 +1,8 @@
 #header{
-  padding: 40px 7%;
+  #logo{
+    grid-column: 1/4;
+  }
+
   &__nav{
     
     &__list{
@@ -7,7 +10,25 @@
       flex-direction: row;
       flex-wrap: wrap;
       margin-top: 30px;
-      justify-content: center;
+      justify-content: center; 
+    }
+  }
+}
+
+@media screen and (min-width: 1024px){
+  #header{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    padding: 0;
+
+    &__nav{
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      grid-column: 4 / 10;
+      &__list{
+        margin-top: 0;
+      }
     }
   }
 }

@@ -9,16 +9,7 @@
   color: inherit;
 }
 
-body{
+.container{
   position: relative;
-}
-
-header, main{
-  padding-left: 7%;
-  padding-right: 7%;
-}
-
-main{
-  position: relative;
-  padding-bottom: 75px;
+  padding: 40px 7%;
 }

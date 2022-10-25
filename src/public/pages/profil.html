@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script defer src="https://pro.fontawesome.com/releases/v5.15.1/js/all.js"
+    integrity="sha384-Vipr9QSlUeD/qnhkau6GBnZnUmVkbaRZ0PgB1KjvWa1UoNBKnuzg1TgbJJn2a12T"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container container__photographer">
+    <header id="header" aria-hidden="false">
+      <figure id="logo">
+        <a href="./">
+          <img src="../assets/images/logo.png" alt="Fisheye Home page" class="logo">
+        </a>
+      </figure>
+    </header>
+    <main aria-disable="true" aria-hidden="false">
+      <article class="photographer photographer--page">
+        <div class="photographer__idContainer photographer__idContainer--page">
+          <figure class="photographer__idContainer__picture photographer__idContainer__picture--page">
+            <img id="profilePortrait"
+              class="user photographer__idContainer__user photographer__idContainer__user--page">
+          </figure>
+        </div>
+        <div class="photographer__container photographer__container--page">
+          <h1 id="profileName" class="name photographer__idContainer__name photographer__idContainer__name--page"></h1>
+          <h2 id="profileLocation" class="location photographer__container__location photographer__container__location--page"></h2>
+          <p id="profileTagLine" class="description photographer__container__description photographer__container__description--page"></p>
+          <ul id="profileTagList" class="photographer__container__hashtags photographer__container__hashtags--page">
+          </ul>
+          <button id="contact-btn" class="btn contact-btn" role="button" aria-label="Contactez-moi">Contactez-moi</button>
+          <aside class="photographer__informations">
+            <div class="photographer__informations__likes">
+              <span id = "likeCounter" class="number photographer__informations__likes__number" aria-label="likes"></span>
+              <i class="heart photographer__informations__likes__heart fas fa-heart" aria-label="likes"></i>
+            </div>
+            <span id="profilePrice" class="price photographer__informations__dailyprice"></span>
+          </aside>
+        </div>
+      </article>
+      <div id="sort" class="sortBy">
+        <span>Trier par</span>
+        <button tabindex="0" class="dropdown-el" id="dropdown-trigger" role="button" aria-haspopup="listbox">
+          <div class="dropdown-selected" role="listbox">
+            <span id="sort-x" role="listitem" aria-selected="true">Popularité</span>
+          </div>
+          <ul tabindex="-1" class="dropdown-selection"  role="listbox">
+            <li tabindex="0" id="sort-popularity" role="listitem" aria-selected="false">Popularité</li>
+            <li tabindex="0" id="sort-date" role="listitem" aria-selected="false">Date</li>
+            <li tabindex="0" id="sort-title" role="listitem" aria-selected="false">Titre</li>
+          </ul>
+        </button>
+      </div>
+    </main>
+    <section id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="false">
+      <div id="content" class="content" aria-labbeledby="modal">
+        <h2 id="formName" class="name content__name">Contactez-moi<br><span id="photographerName"></span></h2>
+        <div id="closeModal" class="cross close-modal" role="button" tab-index="-1" aria-label="Fermer le formulaire de contact">
+          <span aria-labelledby="closeModal" class="cross__bar cross__bar--1"></span>
+          <span aria-labelledby="closeModal" class="cross__bar cross__bar--2"></span>
+        </div>
+        <div id="modal__body" class="modal__body">
+          <div id="confirmedMessage" class="modal__body__submitMessage">
+            <p>Votre message a bien été envoyé !</p>
+            <button class="btn close-btn">Fermer</button>
+          </div>
+          <form action="" id="form" class="form">
+            <div class="form__data">
+              <label aria-labelledby="first" for="first">Prénom</label>
+              <input type="text" aria-label="Prénom" name="first" id="first" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label aria-labelledby="last" for="last">Nom</label>
+              <input type="text" aria-label="Nom" name="last" id="last" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label aria-labelledby="email" for="email">Email</label>
+              <input type="email" aria-labelledby="eMail" name="email" id="email" class="input form__data__input">
+              <small class="form__data__error"></small>
+            </div>
+            <div class="form__data">
+              <label for="textarea">Votre message</label>
+              <textarea aria-labelledby="Votre Message" maxlength="50" name="textarea" id="textarea" class="input form__data__input"></textarea>
+              <small class="form__data__error"></small>
+            </div>
+            <input type="submit" class="btn submit-btn" aria-label="envoyer" value="Envoyer">
+          </form>
+        </div>
+      </div>
+    </section>
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="false">
+      <button aria-label="Fermer la boîte de dialogue" class="lightbox__close"></button>
+      <button aria-label="Image Précédente" class="lightbox__prev"></button>
+      <button aria-label="Image Suivante" class="lightbox__next"></button>
+      <div aria-label="image closeup view" class="lightbox__container">
+        <div class="lightbox__loader"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -6,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const options = {
     //options
 };
-const { config } = require('webpack');
+const { DefinePlugin } = require('webpack');
 const dev = process.env.NODE_ENV === 'dev'
 const cssLoaders = [
     {
@@ -38,25 +39,22 @@ if (!dev) {
 module.exports = {
     mode: 'development',
     entry: {
-        bundle: ['./src/css/main.scss', './src/js/index.js']
+        bundle: ['./src/css/main.scss', './src/js/index.js'],
+        index: ['./src/css/main.scss', './src/js/home.js'],
+        photographer: ['./src/css/main.scss', './src/js/photographer.js', './src/js/media.js', './src/js/validateform.js']
     },
     output: {
         filename: dev ? '[name].js' : '[name].[chunkhash:8].js',
         path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: 'dist',
         port: 3000,
         open: true,
+        hot: true,
     },
     module: {
         rules: [
-            {
-                enforce: 'pre',
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: ['eslint-loader']
-            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -64,7 +62,10 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            ['@babel/preset-env', { targets: "defaults" }]
+                            '@babel/preset-env',
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime'
                         ]
                     }
                 }
@@ -75,6 +76,10 @@ module.exports = {
                 options: {
                     minimize: false,
                 }
+            },
+            {
+                test: /\.mp4$/i,
+                use: 'file-loader?name=videos/[name].[ext]',
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
@@ -102,7 +107,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             esModule: false,
-                            name: '[name].[hash:6].[ext]',
+                            name: '[name].[ext]',
                             emitFile: true,
                         }
                     },*/
@@ -126,19 +131,39 @@ module.exports = {
         ]
     },
     plugins: [
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: "./src/public/assets/images/**/*", to: "./",
+                },
+            ],
+        }),
+
+        new DefinePlugin({
+            url: JSON.stringify('https://raw.githubusercontent.com/Volturuss/Projet-6/development_photographer_page-factory/data.json')
+        }),
         new MiniCssExtractPlugin({
             filename: dev ? '[name].css' : '[name].[contenthash:8].css',
         }),
         new HtmlWebpackPlugin({
-            filename: './mimikeel.html',
-            template: './src/public/pages/mimikeel.html',
+            filename: './profil.html',
+            template: './src/public/pages/profil.html',
             inject: 'head',
             minify: false,
+            chunks: [
+                'media',
+                'photographer',
+                'sort',
+                'validateform'
+            ]
         }),
         new HtmlWebpackPlugin({
             template: './src/public/template.html',
             inject: 'head',
             minify: false,
+            chunks: [
+                'index'
+            ]
         })
     ],
 };
