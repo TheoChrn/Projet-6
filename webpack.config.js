@@ -75,7 +75,7 @@ module.exports = {
                 test: /\.html$/i,
                 loader: 'html-loader',
                 options: {
-                    minimize: false,
+                    minimize: true,
                 }
             },
             {
@@ -97,14 +97,14 @@ module.exports = {
                             esModule: false,
 
                         }
-                    },
-                    {
+                    },*/
+                    /*{
                         loader: 'img-loader',
                         options: {
                             enabled: !dev,
                         }
-                    },
-                    {
+                    },*/
+                    /*{
                         loader: 'file-loader',
                         options: {
                             esModule: false,

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "cross-env NODE_ENV=dev webpack --watch --mode=development",
-    "serv": "./node_modules/.bin/webpack serve"
+    "serve": "webpack serve"
   },
   "author": "",
   "license": "ISC",

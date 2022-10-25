@@ -18,6 +18,7 @@ getData().then(res => {
 
   // Créer un tableau de valeurs uniques
   const set = new Set(data.photographers.map(p => p.tags).reduce((p, c) => [...c, ...p]))
+  console.log(set)
 
   // Pour chaque élement dans set
   set.forEach(e => {

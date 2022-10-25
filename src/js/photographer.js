@@ -213,7 +213,7 @@ getData().then(res => {
 
   // Au clique
   dropDownEl.addEventListener('click', () => {
-    // Active la classe .expanded
+    // Active la classeexpanded
     dropDownEl.classList.toggle('expanded')
   })
 
@@ -324,6 +324,3 @@ export function isEnterPressed (enter) {
     return keyCode
   }
 }
-
-/* REPARER LE CODE */
-/* AJOUTER LE BLUR SUR LE A POUR ENLEVER LE FOCUS */
