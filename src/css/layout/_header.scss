@@ -1,5 +1,8 @@
 #header{
-  padding: 40px 7%;
+  #logo{
+    grid-column: 1/4;
+  }
+
   &__nav{
     
     &__list{

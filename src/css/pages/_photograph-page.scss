@@ -2,14 +2,15 @@
   
   .photo{
 
+    & a{
+      
+    }
+
     &__container{
+      width: 100%;
 
       &__picture{
         height: 190px;
-      }
-
-      &__thumb{
-        background-color: red;
       }
     }
 
@@ -30,6 +31,16 @@
       &__like{
         display: flex;
         margin-left: 15px;
+
+        & .count-heart{
+          align-self: center;
+          border: none;
+          background: url('../public/assets/images/heart.svg') center center / 100% 100% no-repeat transparent;
+          width: .7rem;
+          height: .7rem;
+          cursor: pointer;
+          text-indent: -9999px;
+        }
       }
 
       &__price, &__like__number{
@@ -44,23 +55,39 @@
   #photos{
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 100px;
+    grid-template-columns: repeat(3, 30%);
+    grid-column-gap: 5%;
     grid-row-gap: 30px;
 
     .photo{
 
+      &__description{
+
+        &__name, &__price, &__like, &__like__number{
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1440px){
+  #photos{
+    .photo{
       &__container{
-  
         &__picture{
           height: 300px;
         }
       }
 
       &__description{
-
-        &__name, &__price, &__like, &__like__number, .heart{
+        &__name, &__price, &__like, &__like__number{
           font-size: 24px;
+        }
+
+        & .count-heart{
+          width: 1.3rem;
+          height: 1.3rem;
         }
       }
     }
